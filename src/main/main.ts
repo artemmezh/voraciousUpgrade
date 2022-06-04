@@ -16,6 +16,7 @@ import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 import {ElectronSqliteBackend} from './ElectronSqliteBackend.js';
 import { open } from 'sqlite'
+const fs = require("fs-extra");
 
 export default class AppUpdater {
   constructor() {
@@ -42,13 +43,17 @@ ipcMain.on('ipc-example', async (event, arg) => {
   event.reply('ipc-example', msgTemplate('pong'));
 });
 
+// TODO dont worry it will be refactoring
+//===============
+// Database
+//==============
 ipcMain.on('sqlite', (event, arg) => {
   console.log(arg);
   // console.log(db);
   event.reply('asynchronous-reply', ["qwe", "qwe"]);
 });
 
-ipcMain.handle('sqlite', async (event, ...args) => {
+ipcMain.handle('sqlite', async (event, args) => {
   const result = ["qwe","asd"];
   console.log(result);
   const dbInitialized = await open({
@@ -59,7 +64,7 @@ ipcMain.handle('sqlite', async (event, ...args) => {
   return dbInitialized;
 })
 
-ipcMain.handle('sqliteGetItemMaybe', async (event, ...args) => {
+ipcMain.handle('sqliteGetItemMaybe', async (event, args) => {
   const dbInitialized = await open({
     filename: dbFilename,
     driver: sqlite3.Database
@@ -68,12 +73,76 @@ ipcMain.handle('sqliteGetItemMaybe', async (event, ...args) => {
   return electronSqliteBackend.getItemMaybe(args[0], dbInitialized)
 })
 
-ipcMain.handle('sqliteSetItem', async (event, ...args) => {
+ipcMain.handle('sqliteSetItem', async (event, args) => {
   const dbInitialized = await open({
     filename: dbFilename,
     driver: sqlite3.Database
   })
   return electronSqliteBackend.setItem(args[0], args[1], dbInitialized)
+})
+
+//===============
+// fs
+//==============
+
+ipcMain.handle('readdir', async (event, args) => {
+  return fs.readdir(args[0]);
+})
+
+ipcMain.handle('exists', async (event, args) => {
+  return fs.exists(args[0]);
+})
+
+ipcMain.handle('readFile', async (event, args) => {
+  return fs.readFile(args[0]);
+})
+
+ipcMain.handle('ensureDir', async (event, args) => {
+  return fs.ensureDir(args[0]);
+})
+
+ipcMain.handle('stat', async (event, args) => {
+  return fs.stat(args[0]);
+})
+
+ipcMain.handle('endsWith', async (event, args) => {
+  return fs.endsWith(args[0]);
+})
+
+//===============
+// path
+//==============
+
+ipcMain.handle('extname', async (event, args) => {
+  return path.extname(args[0]);
+})
+
+ipcMain.handle('join', async (event, args) => {
+  console.log("args")
+  console.log(args)
+  const joinResult = path.join(...args);
+  console.log(joinResult)
+  return joinResult;
+})
+
+ipcMain.handle('parse', async (event, args) => {
+  return path.parse(args[0]);
+})
+
+ipcMain.handle('basename', async (event, args) => {
+  return path.basename(args[0], args[1]);
+})
+
+//===============
+// app
+//==============
+
+ipcMain.handle('getAppPath', async (event, args) => {
+  return app.getAppPath();
+})
+
+ipcMain.handle('getPath', async (event, args) => {
+  return app.getPath(args[0]);
 })
 
 if (process.env.NODE_ENV === 'production') {

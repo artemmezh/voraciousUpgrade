@@ -1,18 +1,24 @@
 import {createRoot} from 'react-dom/client';
-import App from './App';
-import {SubscribableState} from './ruxx';
+import App from './components/App';
 import MainActions from './mainActions';
+import {SubscribableState, StateMapper} from './ruxx';
 
 const subscribableMainState = new SubscribableState();
 const actions = new MainActions(subscribableMainState);
 
 const container = document.getElementById('root')!;
 const root = createRoot(container);
+
 root.render(
-  <App
-    mainState={subscribableMainState}
-    actions={actions}
-  />);
+  <StateMapper subscribableState={subscribableMainState}
+               renderState={
+                 state =>
+                   <App mainState={state}
+                        actions={actions}
+                   />
+               }
+  />
+);
 
 // calling IPC exposed from preload script
 window.electron.ipcRenderer.once('ipc-example', (arg) => {

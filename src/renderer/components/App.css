@@ -1,0 +1,159 @@
+.App-main-nav {
+  position: fixed;
+  width: 100%;
+  height: 60px;
+  background: white;
+  font-size: 32px;
+}
+
+.App-below-main-nav {
+  padding-top: 75px;
+}
+
+.App-main-nav > a {
+  display: inline-block;
+  text-decoration: none;
+  padding: 0.2em 0.1em;
+  margin-right: 0.4em;
+  border-bottom: 2px solid black;
+  color: inherit;
+}
+
+.App-main-nav > a.selected {
+  color: #c00;
+  border-bottom: 2px solid #c00;
+}
+
+.App-main-nav > a:hover {
+  background: #eee;
+}
+
+.App-no-collections-message {
+  font-size: 20px;
+}
+
+.App-collection {
+  margin-bottom: 30px;
+}
+
+.App-collection-header {
+  margin-bottom: 20px;
+}
+
+.App-collection-header-title {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-weight: normal;
+  line-height: 1.5;
+}
+
+.App-collection-header-buttons {
+  visibility: hidden;
+  margin-left: 10px;
+}
+
+.App-collection-header:hover .App-collection-header-buttons {
+  visibility: visible;
+}
+
+.App-collection-header-buttons button {
+  vertical-align: middle;
+  border: 1px solid #ccc;
+  color: #999;
+  background: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.App-collection-header-buttons button:hover {
+  background-color: #eee;
+}
+
+.App-collection-id {
+  font-size: 14px;
+  color: #666;
+}
+
+.App-back-to-library-link {
+  color: inherit;
+}
+
+.App-back-to-library-link:hover {
+  background: #eee;
+}
+
+.App-library-list-item {
+  font-size: 18px;
+  border-top: 1px solid #ddd;
+  padding: 0.5em 0;
+}
+
+.App-library-list-item-has-subs {
+  color: black;
+}
+
+.App-library-list-item-no-subs {
+  color: #888;
+}
+
+.App-library-list-item-time-stamp {
+  color: #888;
+  float: right;
+  margin-right: 1em;
+  font-size: 0.8em;
+}
+
+.App-library-list-item:last-child {
+  border-bottom: 1px solid #ddd;
+}
+
+.App-library-list-item:hover {
+  background: #eee;
+}
+
+.App-library-list-item > a {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.App-highlight-set-left-panel {
+  position: fixed;
+  width: 300px;
+}
+
+.App-highlight-set-main-area {
+  padding-left: 300px;
+}
+
+.App-new-set-form {
+  background: #cce;
+  padding: 1em;
+  margin: 10px 0;
+}
+
+.App-highlight-set-list {
+  margin-bottom: 10px;
+}
+
+.App-highlight-set-list a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.App-highlight-set-list a:hover {
+  background: #eee;
+  /*text-decoration: underline;*/
+}
+
+.App-highlight-set-list a.selected {
+  color: #c00;
+}
+
+.App-highlight-set-list a.selected::before {
+  display: inline-block;
+  content: "►";
+  color: #c00;
+  width: 1em;
+  margin-left: -1em;
+}

@@ -1,0 +1,300 @@
+.Player-big-button {
+  display: block;
+  position: absolute;
+  color: #ddd;
+  border: none;
+  text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black, 0 0 5px black;
+  background: transparent;
+  font-size: 48px;
+  padding: 0.2em;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.Player-big-button:hover {
+  color: #fff;
+}
+
+.Player-exit-button {
+  top: 0;
+  left: 0;
+}
+
+.Player-toggle-settings-button {
+  top: 0;
+  right: 0;
+}
+
+.Player-subtitle-controls-panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  color: #ccc;
+  background-color: rgba(0,0,0,0.7);
+  padding: 9px 15px 10px 15px;
+  border-radius: 0 0 0 10px;
+}
+
+.Player .controls-hide {
+  transition: opacity 0.5s ease-out;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.Player-subtitle-controls-panel select, .Player-subtitle-controls-panel button {
+  font-size: 11pt;
+  outline: none;
+  background-color: #222;
+  color: #ccc;
+  border: solid 1px #777;
+  border-radius: 3px;
+  padding: 3px;
+}
+
+.Player-subtitle-controls-panel button {
+  padding: 4px 10px;
+}
+
+.Player-subtitle-controls-panel select:hover, .Player-subtitle-controls-panel button:hover {
+  background-color: #333;
+  color: #ddd;
+  border-color: #999;
+}
+
+.Player-help-panel {
+  position: absolute;
+  top: 60px;
+  max-height: 50%;
+  overflow-y: scroll;
+  right: 0;
+  color: white;
+  background-color: black;
+  opacity: 0.8;
+  font-size: 14px;
+  width: 250px;
+  padding: 10px;
+}
+
+.Player-help-panel table {
+  border-collapse: collapse;
+}
+
+.Player-help-panel td {
+  padding: 3px 6px 0 0;
+  margin: 0;
+}
+
+.Player-help-panel-header {
+  font-size: 1.3em;
+}
+
+.Player-help-panel-section:not(:last-child) {
+  margin-bottom: 10px;
+}
+
+.Player-blackfill {
+  height: 100vh;
+  background: black;
+}
+
+.Player-main {
+  display: flex;
+  flex-flow: column nowrap;
+  height: 100vh;
+}
+
+.Player-video-area {
+  display: flex;
+  flex-flow: column nowrap;
+  flex: auto;
+  position: relative;
+  background: black;
+}
+
+.Player-text-chunks {
+  pointer-events: none;
+  position: absolute;
+  bottom: 0;
+  left: 3em;
+  right: 3em;
+  bottom: 30px;
+}
+
+.Player-text-chunk-outer {
+  /*
+    With the text-shadow, this background seems optional.
+    Itt might be good to have it as an option. We put it in an outer
+    wrapper because I think it looks better when it's full-width.
+  */
+  border-radius: 10px;
+  text-align: center;
+  margin-bottom: 10px;
+  cursor: auto;
+}
+
+.Player-text-chunk-outer-hidden {
+  display: none;
+}
+
+.Player-text-chunk-inner {
+  pointer-events: all;
+  cursor: pointer;
+  display: inline-block;
+  border-radius: 10px;
+  background: rgba(0,0,0,0.7);
+  color: white;
+  text-shadow:
+                0 0 1px black,
+                0 0 1px black,
+                0 0 1px black,
+                0 0 2px black,
+                0 0 2px black,
+                0 0 2px black,
+                0 0 3px black,
+                0 0 5px black;
+  font-size: 1.6em;
+  overflow: hidden;
+  padding: 0.3em 1em 0.4em 1em;
+}
+
+.Player-text-chunk-inner > span {
+  display: inline-block;
+}
+
+.Player-text-reveal-instructions {
+  display: none; /* flex */
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  font-size: 12px;
+}
+
+.Player-text-chunk-annotext {
+}
+
+.Player-text-chunk-annotext-hidden {
+  /*visibility: hidden;*/
+  filter: blur(6px);
+  transition: filter 0s;
+  pointer-events: none;
+}
+
+.Player-text-chunk-annotext-visible {
+  transition: filter 0.2s;
+  /*visibility: visible;*/
+}
+
+.Player video {
+  display: block;
+  flex: auto;
+  min-height: 0;
+  min-width: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.Player .video_wrapper {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+.Player .video_playback_controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.7);
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 0.3em 1em 0.3em 0.5em;
+}
+
+.video_playback_controls .play_button {
+  color: #ddd;
+  font-size: 1.3em;
+  cursor: pointer;
+  height: 1.3em;
+  width: 1em;
+  margin-left: 0.2em;
+}
+.video_playback_controls .play_button:hover {
+  color: #fff;
+}
+
+.video_playback_controls .video_timestamp {
+  text-align: center;
+  font-size: 0.8em;
+  color: #ccc;
+  width: 10.5em;
+  margin-top: 0.2em;
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+}
+
+.video_playback_controls .video_timeline {
+  -webkit-appearance: none;
+  background: #559;
+  width: 100%;
+  height: 4px;
+}
+
+.video_playback_controls .video_timeline::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 1em;
+  width: 1em;
+  background: #ddd;
+  border-radius: 0.5em;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+}
+.video_playback_controls .video_timeline::-webkit-slider-thumb:hover {
+  background: #fff;
+}
+
+.PlayControls {
+  flex: initial;
+  text-align: center;
+  margin: 10px auto;
+}
+
+.Player-no-audio-warning-layer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  pointer-events: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.Player-no-audio-warning {
+  text-align: center;
+  background: rgba(0,0,0,0.75);
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.Player-export-panel {
+  position: absolute;
+  top: 60px;
+  max-height: 50%;
+  overflow-y: scroll;
+  left: 0;
+  color: white;
+  background-color: black;
+  opacity: 0.8;
+  font-size: 14px;
+  width: 500px;
+  padding: 10px;
+}

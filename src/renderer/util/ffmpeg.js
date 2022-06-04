@@ -1,9 +1,9 @@
-import path from 'path';
+// import path from 'path';
 import { getBinariesPath } from '../util/appPaths';
 
-const tmp = window.require('tmp-promise');
-const { spawn } = window.require('child_process');
-const fs = window.require('fs-extra');
+// const tmp = window.require('tmp-promise');
+// const { spawn } = window.require('child_process');
+// const fs = window.require('fs-extra');
 
 const getBinaryFilename = () => {
   const ffmpegDir = path.join(getBinariesPath(), 'ffmpeg');

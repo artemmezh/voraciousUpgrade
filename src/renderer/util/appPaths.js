@@ -1,22 +1,30 @@
-import path from 'path';
+// import path from 'path';
 
+import {getAppPath, getPath} from "../FileSystems";
+import {join} from "../FileSystems";
 // const { path } = window.require('electron').remote;
-const app = window.electron.remote;
+// const app = window.electron.remote;
 
 export const getUserDataPath = () => {
-  const userData =  app.getPath('userData');
+  const userData = getPath('userData');
   console.log(userData);
   return userData;
 };
 
-export const getResourcesPath = () => {
-  return path.join(app.getAppPath(), 'resources');
+export const getResourcesPath = async () => {
+  const appPath = await getAppPath();
+  console.log("appPath")
+  console.log(appPath)
+  const path = await join(appPath, 'resources');
+  console.log("path from getResourcesPath:");
+  console.log(path);
+  return path;
 };
 
 export const getBinariesPath = () => {
-  let appPath = app.getAppPath();
+  let appPath = getAppPath();
   if (appPath.endsWith('.asar')) {
     appPath += '.unpacked';
   }
-  return path.join(appPath, 'resources', 'bin', process.platform);
+  return await join(appPath, 'resources', 'bin', process.platform);
 };

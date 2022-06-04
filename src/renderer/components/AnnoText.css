@@ -1,0 +1,87 @@
+
+.AnnoText {
+  overflow: hidden;
+  user-select: none;
+  font-size: 1.2em;
+}
+
+.AnnoText-textchar {
+}
+
+.AnnoText .word-state-0 {
+}
+
+.AnnoText .word-state-1 {
+  color: #99ee55;
+}
+
+.AnnoText .word-state-2 {
+  color: #bbbbee;
+}
+
+.AnnoText .word-state-3 {
+  color: #ff6666;
+}
+
+.AnnoText-textchar.AnnoText-selected {
+  background: rgba(0,255,0,0.5);
+}
+
+.AnnoText-textchar.AnnoText-hover {
+  background: rgba(0,255,0,0.25);
+}
+
+.AnnoText-highlight {
+  background-color: rgba(0,185,255,0.5);
+}
+
+.AnnoText-tooltip {
+  font-size: 24px;
+  line-height: 1.2;
+}
+
+.AnnoText-tooltip-search-words-list {
+  text-align: left;
+}
+
+.AnnoText-tooltip-search-words-item:not(:last-child) {
+  margin-bottom: 0.6em;
+}
+
+.AnnoText-tooltip-search-word {
+  margin-bottom: 0.1em;
+}
+
+.AnnoText-tooltip-dict-hits {
+}
+
+.AnnoText-tooltip-dict-hit {
+  margin-top: 10px;
+}
+
+.Annotext-tooltip-dict-name {
+  color: #aaa;
+  font-size: 10px;
+}
+
+.Annotext-tooltip-dict-hit-text {
+  font-size: 14px;
+}
+
+.AnnoText-tooltip-external-links {
+  float: right;
+  font-size: 0.5em;
+}
+
+.AnnoText-tooltip-external-links a, .AnnoText-tooltip-external-links:link, .AnnoText-tooltip-external-links:visited {
+  color: #222;
+}
+
+.AnnoText-tooltip-external-links a:hover, .AnnoText-tooltip-external-links:focus, .AnnoText-tooltip-external-links:active {
+  color: #666;
+}
+
+.AnnoText-edit-controls {
+  font-size: 12px;
+  margin-top: 10px;
+}
