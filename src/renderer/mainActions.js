@@ -48,13 +48,13 @@ export default class MainActions {
 
     await this._storageLoadProfile();
 
-    // if (!process.argv.includes('--nodicts')) {
-    this._setLoadingMessage('Loading dictionaries...');
+    if (!window.electron.remote.commandLine.hasSwitch('--nodicts')) {
+      this._setLoadingMessage('Loading dictionaries...');
 
-    await this._loadDictionaries(progressMsg => {
-      this._setLoadingMessage(progressMsg);
-    });
-    // }
+      await this._loadDictionaries(progressMsg => {
+        this._setLoadingMessage(progressMsg);
+      });
+    }
 
     this._clearLoadingMessage();
   };
