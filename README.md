@@ -11,3 +11,9 @@ My plan is copy and past chunk of code from main repository :)
 * more about invoke methods here https://github.com/electron/electron/issues/21408#issuecomment-564184702 or here https://stackoverflow.com/questions/69070320/how-to-get-the-current-browser-window-in-the-renderer-in-electron-14
 * IPC (inter-process communication)
 * modern guide about electron and ipc https://www.debugandrelease.com/the-ultimate-electron-guide/
+* Add so many ipcMain handler for all staff like fs and path
+* copy rest components from main repo
+* ran into a problem with `...args` 
+
+## Day 1
+comming soon
