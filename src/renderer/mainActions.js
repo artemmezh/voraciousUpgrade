@@ -1,7 +1,6 @@
-import {List, Record, Map as IMap, OrderedMap, Set as ISet} from 'immutable';
+import { List, Record, Map as IMap, OrderedMap, Set as ISet } from 'immutable';
+import { getCollectionIndex, loadCollectionSubtitleTrack } from './library';
 import { loadDictionaries, searchIndex } from './dictionary';
-// import createStorageBackend from './storage';
-import {getCollectionIndex} from "./library";
 import {Storage} from "./Storage";
 
 const jstr = JSON.stringify; // alias

@@ -11,10 +11,11 @@ import './Settings.css';
 
 export default class Settings extends Component {
 
-  async componentDidMount() {
-    const appVersion = await getVersion();
-    this.setState({ appVersion });
-  }
+  // async componentWillMount() {
+  //   const appVersion = await getVersion();
+  //   console.log(appVersion)
+  //   this.setState({ appVersion });
+  // }
 
   render() {
     const {mainState, actions, history} = this.props;
@@ -42,7 +43,7 @@ export default class Settings extends Component {
         </div>
         <div className="Settings-section">
           <h2 className="Settings-section-title">Misc</h2>
-          <div>You're running Voracious version {this.state.appVersion}</div>
+          <div>You're running Voracious version 3</div>
         </div>
         <div className="Settings-section">
           <h2 className="Settings-section-title">Acknowledgements</h2>

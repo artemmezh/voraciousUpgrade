@@ -8,7 +8,7 @@ import { ensureKuromojiLoaded, createAutoAnnotatedText } from '../util/analysis'
 import { detectIso6393 } from '../util/languages';
 import { createTimeRangeChunk, createTimeRangeChunkSet } from '../util/chunk';
 import { extractAudio, extractFrameImage } from '../util/ffmpeg';
-import {readdir, join, extname, stat, exists, basename, isDirectory} from "../FileSystems";
+import {readdir, join, extname, stat, exists, basename, isDirectory, readFile} from "../FileSystems";
 
 const LOCAL_PREFIX = 'local:';
 
@@ -239,7 +239,7 @@ const loadSubtitleTrackFromFile = async (filename) => {
   const language = detectIso6393(combinedText);
 
   // Create time-indexed subtitle track
-  await ensureKuromojiLoaded(); // wait until kuromoji has loaded
+  //await ensureKuromojiLoaded(); // wait until kuromoji has loaded todo do loading of dictionary
   const chunks = [];
   for (const sub of subs) {
     const annoText = await createAutoAnnotatedText(sub.lines, language);

@@ -47,5 +47,5 @@ export const getPath = async (...args) => {
 }
 
 export const getVersion = async (...args) => {
-  return window.electron.ipcRenderer.invoke('getVersion', args)
+  return "0.3"; //window.electron.ipcRenderer.invoke('getVersion', args) //dont know why version does not return
 }
