@@ -98,9 +98,9 @@ const listDirs = async (dir) => {
 
   for (const fn of dirents) {
     const absfn = await join(dir, fn);
-    const stat = await stat(absfn);
+    const statDir = await stat(absfn);
 
-    if (stat.isDirectory()) {
+    if (statDir.isDirectory()) {
       result.push(fn);
     }
   }

@@ -14,6 +14,7 @@ My plan is copy and past chunk of code from main repository :)
 * Add so many ipcMain handler for all staff like fs and path
 * copy rest components from main repo
 * ran into a problem with `...args` 
+* there is why should not use electron/remote libs https://github.com/electron/remote
 
 ## Day 1
 comming soon

@@ -2,6 +2,7 @@ import {List, Record, Map as IMap, OrderedMap, Set as ISet} from 'immutable';
 import { loadDictionaries, searchIndex } from './dictionary';
 // import createStorageBackend from './storage';
 import {getCollectionIndex} from "./library";
+import {Storage} from "./Storage";
 
 const jstr = JSON.stringify; // alias
 const jpar = JSON.parse; // alias
@@ -79,7 +80,7 @@ export default class MainActions {
 
     this._setLoadingMessage('Loading profile...');
 
-    // this.storage = await window.electron.ipcRenderer.invoke("sqlite", '')
+    this.storage = new Storage();
 
     await this._storageLoadProfile();
 
@@ -178,8 +179,8 @@ export default class MainActions {
 
   _storageLoadProfile = async () => {
     console.log("loading profile...")
-    // const profileStr = await this.storage.getItemMaybe('profile');
-    const profileStr = await window.electron.ipcRenderer.invoke("sqliteGetItemMaybe", ['profile'])
+    const profileStr = await this.storage.getItemMaybe('profile');
+    // const profileStr = await window.electron.ipcRenderer.invoke("sqliteGetItemMaybe", ['profile'])
     console.log("profileStr")
     console.log(profileStr)
 
@@ -249,14 +250,205 @@ export default class MainActions {
   };
 
   _storageLoadSavedWordList = async () => {
-    console.log('storage load saved word list');
+    const word_map = await this.storage.getAllWords();
+
+    for (const [word, data] of word_map) {
+      const jdata = jpar(data);
+      this.state.set(this.state.get().setIn(
+        ['wordList', word],
+        new SavedWordRecord().set('learnState', jdata.learnState)
+      ));
+    }
   };
 
   loadVideoPlaybackPosition = async (collectionLocator, videoId) => {
+    const positionStr = await this.storage.getItemMaybe('playback_position/' + encodeURIComponent(collectionLocator) + '/' + encodeURIComponent(videoId));
+    if (!positionStr) {
+      return 0;
+    }
 
+    const position = jpar(positionStr);
+
+    // In addition to (asynchronously) returning the position, we update the in-memory state to have it
+    this.state.set(this.state.get().setIn(['collections', collectionLocator, 'videos', videoId, 'playbackPosition'], position));
+
+    return position;
   };
 
   _storageSavePlaybackPosition = async (collectionLocator, videoId, position) => {
+    await this.storage.setItem('playback_position/' + encodeURIComponent(collectionLocator) + '/' + encodeURIComponent(videoId), jstr(position));
+  };
 
+  saveVideoPlaybackPosition = async (collectionLocator, videoId, position) => {
+    const currentPosition = this.state.get().collections.get(collectionLocator).videos.get(videoId).playbackPosition;
+    if (position === currentPosition) {
+      return;
+    }
+
+    this.state.set(this.state.get().setIn(['collections', collectionLocator, 'videos', videoId, 'playbackPosition'], position));
+
+    await this._storageSavePlaybackPosition(collectionLocator, videoId, position);
+  };
+
+  loadSubtitlesIfNeeded = async (collectionLocator, videoId) => {
+    if (this.state.get().getIn(['collections', collectionLocator, 'videos', videoId, 'loadingSubs'])) {
+      return;
+    }
+
+    this.state.set(this.state.get().setIn(['collections', collectionLocator, 'videos', videoId, 'loadingSubs'], true));
+
+    const subTracks = this.state.get().getIn(['collections', collectionLocator, 'videos', videoId, 'subtitleTracks']);
+
+    for (const subTrack of subTracks.values()) {
+      if (!subTrack.chunkSet && !subTrack.loading) {
+        const stid = subTrack.id;
+        console.log('loading sub track...', collectionLocator, videoId, stid);
+        const {language, chunkSet} = await loadCollectionSubtitleTrack(collectionLocator, stid);
+        // NOTE: It's OK to update state, we are iterating from immutable object
+        this.state.set(this.state.get().updateIn(['collections', collectionLocator, 'videos', videoId, 'subtitleTracks', stid], subTrack => subTrack.merge({
+          language,
+          chunkSet,
+        })));
+        console.log('loaded sub track', collectionLocator, videoId, stid);
+      }
+    }
+
+    this.state.set(this.state.get().setIn(['collections', collectionLocator, 'videos', videoId, 'loadingSubs'], false));
+  };
+
+  sortFilterSubtitleTracksMap = (subTracksMap) => {
+    const prefOrder = this.state.get().preferences.subtitleOrder.toArray();
+    const ignores = this.state.get().preferences.subtitleIgnores.toArray();
+
+    const arr = subTracksMap.valueSeq().toArray().filter(t => !ignores.includes(t.language));
+    arr.sort((a, b) => {
+      const aIdx = prefOrder.includes(a.language) ? prefOrder.indexOf(a.language) : Infinity;
+      const bIdx = prefOrder.includes(b.language) ? prefOrder.indexOf(b.language) : Infinity;
+
+      if (aIdx < bIdx) {
+        return -1;
+      } else if (aIdx > bIdx) {
+        return 1;
+      } else {
+        const al = a.language || '';
+        const bl = b.language || '';
+        const ac = al.localeCompare(bl);
+        if (ac !== 0) {
+          return ac;
+        } else {
+          return a.id.localeCompare(b.id);
+        }
+      }
+    });
+    return arr;
+  };
+
+  addLocalCollection = async (name, directory) => {
+    await this._addCollection(name, 'local:'+directory);
+    await this._storageSaveProfile();
+  };
+
+  removeCollection = async (locator) => {
+    this.state.set(this.state.get().deleteIn(['collections', locator]));
+    await this._storageSaveProfile();
+  };
+
+  setPreference = async (pref, value) => {
+    // TODO: validate pref, value?
+    this.state.set(this.state.get().setIn(['preferences', pref], value));
+    await this._storageSaveProfile();
+  };
+
+  setPreferenceSubtitleOrder = async (orderArr) => {
+    this.state.set(this.state.get().setIn(['preferences', 'subtitleOrder'], new List(orderArr)));
+    await this._storageSaveProfile();
+  };
+
+  setPreferenceSubtitleIgnores = async (ignoresArr) => {
+    this.state.set(this.state.get().setIn(['preferences', 'subtitleIgnores'], new List(ignoresArr)));
+    await this._storageSaveProfile();
+  };
+
+  setPreferenceDisableDictionary = async (dictName) => {
+    this.state.set(this.state.get().updateIn(['preferences', 'disabledDictionaries'], set => set.add(dictName)));
+    await this._storageSaveProfile();
+  };
+
+  setPreferenceEnableDictionary = async (dictName) => {
+    this.state.set(this.state.get().updateIn(['preferences', 'disabledDictionaries'], set => set.remove(dictName)));
+    await this._storageSaveProfile();
+  };
+
+  setPreferenceDictionaryOrder = async (names) => {
+    this.state.set(this.state.get().setIn(['preferences', 'dictionaryOrder'], new List(names)));
+    this._updateDictionaryOrderByPreference();
+    await this._storageSaveProfile();
+  };
+
+  setPreferenceAnki = async (prefs) => {
+    this.state.set(this.state.get().setIn(['preferences', 'anki'], new AnkiPreferencesRecord({
+      deckName: prefs.deckName,
+      modelName: prefs.modelName,
+      fieldMap: new OrderedMap(prefs.fieldMap),
+    })));
+    await this._storageSaveProfile();
+  };
+
+  searchDictionaries = (word) => {
+    const state = this.state.get();
+
+    const results = [];
+
+    for (const [name, info] of state.dictionaries) {
+      if (!state.preferences.disabledDictionaries.has(name)) {
+        for (const text of searchIndex(info.index, word)) {
+          results.push({
+            dictionaryName: name,
+            text,
+          });
+        }
+      }
+    }
+
+    return results;
+  };
+
+  reloadDictionaries = async (reportProgress) => {
+    await this._loadDictionaries(reportProgress);
+  };
+
+  deleteDictionary = async (name) => {
+    const dict = this.state.get().dictionaries.get(name);
+
+    if (dict.builtin) {
+      throw new Error('Not allowed to delete built-in dictionary');
+    }
+
+    await fs.unlink(dict.filename);
+
+    this.state.set(this.state.get().deleteIn(['dictionaries', name]));
+  };
+
+  // Sets the data for the given word in the word list.
+  setWordInList = async (word, data) => {
+    // Set the local state list
+    this.state.set(this.state.get().setIn(['wordList', word], data));
+
+    // Set the database store.
+    await this.storage.setWord(word, jstr(data));
+  };
+
+  // Gets the data for the given word in the word list.
+  //
+  // Note: this cannot fail, and will simply return a default SavedWordRecord
+  // if the word has not been recorded in the list yet.
+  getWordFromList = (word) => {
+    // Get's the word data from the local state list
+    if (this.state.get().get('wordList').has(word)) {
+      return this.state.get().get('wordList').get(word);
+    } else {
+      return new SavedWordRecord();
+    }
   };
 };
+

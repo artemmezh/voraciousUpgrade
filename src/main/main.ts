@@ -9,7 +9,7 @@
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
 import path from 'path';
-import { app, BrowserWindow, shell, ipcMain } from 'electron';
+import {app, BrowserWindow, shell, ipcMain, dialog} from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from './menu';
@@ -64,6 +64,8 @@ ipcMain.handle('sqlite', async (event, args) => {
   return dbInitialized;
 })
 
+//sql
+
 ipcMain.handle('sqliteGetItemMaybe', async (event, args) => {
   const dbInitialized = await open({
     filename: dbFilename,
@@ -74,6 +76,30 @@ ipcMain.handle('sqliteGetItemMaybe', async (event, args) => {
 })
 
 ipcMain.handle('sqliteSetItem', async (event, args) => {
+  const dbInitialized = await open({
+    filename: dbFilename,
+    driver: sqlite3.Database
+  })
+  return electronSqliteBackend.setItem(args[0], args[1], dbInitialized)
+})
+
+ipcMain.handle('setWord', async (event, args) => {
+  const dbInitialized = await open({
+    filename: dbFilename,
+    driver: sqlite3.Database
+  })
+  return electronSqliteBackend.setWord(args[0], args[1], dbInitialized)
+})
+
+ipcMain.handle('getAllWords', async (event, args) => {
+  const dbInitialized = await open({
+    filename: dbFilename,
+    driver: sqlite3.Database
+  })
+  return electronSqliteBackend.getAllWords(dbInitialized)
+})
+
+ipcMain.handle('setItem', async (event, args) => {
   const dbInitialized = await open({
     filename: dbFilename,
     driver: sqlite3.Database
@@ -145,6 +171,10 @@ ipcMain.handle('getPath', async (event, args) => {
   return app.getPath(args[0]);
 })
 
+ipcMain.handle('getVersion', async (event, args) => {
+  return app.getVersion();
+})
+
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
   sourceMapSupport.install();
@@ -169,6 +199,50 @@ const installExtensions = async () => {
     )
     .catch(console.log);
 };
+
+function addIpcHandlers() {
+  ipcMain.on('choose-video-file', () => {
+    console.log('choose vido file')
+    dialog.showOpenDialog({
+      title: 'Choose a video file',
+      buttonLabel: 'Choose',
+      filters: [{name: 'Videos', extensions: ['mp4', 'webm']}],
+      properties: ['openFile'],
+    }, files => {
+      if (files && files.length) {
+        const fn = files[0];
+        mainWindow.send('chose-video-file', fn)
+      }
+    });
+  });
+
+  ipcMain.on('choose-directory', (event, prompt) => {
+    console.log(prompt)
+    console.log('opening dialog choose-directory')
+    dialog.showOpenDialog({
+      title: prompt,
+      buttonLabel: 'Choose',
+      properties: ['openDirectory'],
+    }).then( files => {
+      console.log('files')
+      console.log(files)
+      const filePaths = files.filePaths
+      if (filePaths && filePaths.length) {
+        const dir = filePaths[0];
+        console.log(dir)
+        const basename = path.basename(dir);
+        console.log("basename->>>>")
+        console.log(basename)
+        mainWindow.send('chose-directory', basename, dir)
+      }
+    });
+  });
+
+  ipcMain.on('open-devtools', () => {
+    mainWindow.webContents.openDevTools();
+  });
+}
+
 
 const createWindow = async () => {
   if (isDebug) {
@@ -241,6 +315,7 @@ app.on('window-all-closed', () => {
 app
   .whenReady()
   .then(() => {
+    addIpcHandlers();
     createWindow();
     app.on('activate', () => {
       // On macOS it's common to re-create a window in the app when the

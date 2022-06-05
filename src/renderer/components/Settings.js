@@ -6,15 +6,18 @@ import SettingsSubOrder from './SettingsSubOrder';
 import SettingsSubIgnores from './SettingsSubIgnores';
 import SettingsAnki from './SettingsAnki';
 import SystemBrowserLink from './SystemBrowserLink.js';
-
+import {getVersion} from "../FileSystems";
 import './Settings.css';
 
-const app = window.electron.remote;
-
 export default class Settings extends Component {
+
+  async componentDidMount() {
+    const appVersion = await getVersion();
+    this.setState({ appVersion });
+  }
+
   render() {
     const {mainState, actions, history} = this.props;
-
     return (
       <div>
         <div className="Settings-section">
@@ -39,7 +42,7 @@ export default class Settings extends Component {
         </div>
         <div className="Settings-section">
           <h2 className="Settings-section-title">Misc</h2>
-          <div>You're running Voracious version {app.getVersion()}</div>
+          <div>You're running Voracious version {this.state.appVersion}</div>
         </div>
         <div className="Settings-section">
           <h2 className="Settings-section-title">Acknowledgements</h2>

@@ -45,3 +45,7 @@ export const getAppPath = async (...args) => {
 export const getPath = async (...args) => {
   return window.electron.ipcRenderer.invoke('getPath', args)
 }
+
+export const getVersion = async (...args) => {
+  return window.electron.ipcRenderer.invoke('getVersion', args)
+}
