@@ -135,6 +135,10 @@ ipcMain.handle('endsWith', async (event, args) => {
   return fs.endsWith(args[0]);
 })
 
+ipcMain.handle('isDirectory', async (event, args) => {
+  return fs.stat(args[0]).isDirectory
+})
+
 //===============
 // path
 //==============

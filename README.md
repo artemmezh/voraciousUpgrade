@@ -17,4 +17,5 @@ My plan is copy and past chunk of code from main repository :)
 * there is why should not use electron/remote libs https://github.com/electron/remote
 
 ## Day 1
-comming soon
+* In new electron showOpenDialog is async method   
+  https://stackoverflow.com/questions/70331707/how-do-i-use-showopendialog-withe-electron-s-ipc

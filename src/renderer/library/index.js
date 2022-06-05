@@ -8,7 +8,7 @@ import { ensureKuromojiLoaded, createAutoAnnotatedText } from '../util/analysis'
 import { detectIso6393 } from '../util/languages';
 import { createTimeRangeChunk, createTimeRangeChunkSet } from '../util/chunk';
 import { extractAudio, extractFrameImage } from '../util/ffmpeg';
-import {readdir, join, stat, extname, exists, basename} from "../FileSystems";
+import {readdir, join, extname, stat, exists, basename, isDirectory} from "../FileSystems";
 
 const LOCAL_PREFIX = 'local:';
 
@@ -32,10 +32,11 @@ const listVideosRel = async (baseDir, relDir) => {
   const dirents = await readdir(await join(baseDir, relDir));
 
   for (const fn of dirents) {
-    const absfn = join(baseDir, relDir, fn);
-    const stat = await stat(absfn);
+    const absfn = await join(baseDir, relDir, fn);
+    console.log(absfn);
+    const isDir = await isDirectory(absfn);
 
-    if (!stat.isDirectory()) {
+    if (!isDir) {
       const ext = await extname(fn);
       if (SUPPORTED_VIDEO_EXTENSIONS.includes(ext)) {
         videoFiles.push(fn);
@@ -98,9 +99,9 @@ const listDirs = async (dir) => {
 
   for (const fn of dirents) {
     const absfn = await join(dir, fn);
-    const statDir = await stat(absfn);
+    const isDir = await isDirectory(absfn);
 
-    if (statDir.isDirectory()) {
+    if (isDir) {
       result.push(fn);
     }
   }

@@ -15,13 +15,13 @@ export const endsWith = async (...args) => {
   return window.electron.ipcRenderer.invoke('endsWith', args)
 }
 
+export const isDirectory = async (...args) => {
+  return window.electron.ipcRenderer.invoke('isDirectory', args)
+}
+
 //path
 export const join = async (...args) => {
-  console.log("join args")
-  console.log(args)
   const r = window.electron.ipcRenderer.invoke('join', args)
-  console.log("r");
-  console.log(r);
   return r;
 }
 
