@@ -10,16 +10,18 @@
  */
 import path from 'path';
 import {app, BrowserWindow, shell, ipcMain, dialog} from 'electron';
-import { autoUpdater } from 'electron-updater';
+import {autoUpdater} from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from './menu';
-import { resolveHtmlPath } from './util';
+import {resolveHtmlPath} from './util';
 import {ElectronSqliteBackend} from './ElectronSqliteBackend.js';
-import { open } from 'sqlite'
-const fs = require("fs-extra");
-const { protocol } = require('electron');
+import {open} from 'sqlite'
+import {extractAudio, extractFrameImage} from "./ffmpeg";
 
-function fileHandler(req, callback){
+const fs = require("fs-extra");
+const {protocol} = require('electron');
+
+function fileHandler(req, callback) {
   let requestedPath = req.url
 
   callback({
@@ -52,7 +54,29 @@ ipcMain.on('ipc-example', async (event, arg) => {
   event.reply('ipc-example', msgTemplate('pong'));
 });
 
-// TODO dont worry it will be refactoring
+//===============
+// ffmpeg
+//==============
+
+ipcMain.handle('extractAudio', async (event, args) => {
+  console.log("extractAudio")
+  console.log(args)
+  const vidfn = args[0];
+  const startTime = args[1];
+  const endTime = args[2];
+  return extractAudio(vidfn, startTime, endTime);
+})
+
+ipcMain.handle('extractFrameImage', async (event, args) => {
+  console.log("extractFrameImage")
+  console.log(args)
+  const vidfn = args[0];
+  const time = args[1];
+  return extractFrameImage(vidfn, time);
+})
+
+
+// TODO dont worry it will be refactored
 //===============
 // Database
 //==============
@@ -63,7 +87,7 @@ ipcMain.on('sqlite', (event, arg) => {
 });
 
 ipcMain.handle('sqlite', async (event, args) => {
-  const result = ["qwe","asd"];
+  const result = ["qwe", "asd"];
   console.log(result);
   const dbInitialized = await open({
     filename: dbFilename,
@@ -236,7 +260,7 @@ function addIpcHandlers() {
       title: prompt,
       buttonLabel: 'Choose',
       properties: ['openDirectory'],
-    }).then( files => {
+    }).then(files => {
       console.log('files')
       console.log(files)
       const filePaths = files.filePaths
@@ -253,6 +277,16 @@ function addIpcHandlers() {
 
   ipcMain.on('open-devtools', () => {
     mainWindow.webContents.openDevTools();
+  });
+
+  ipcMain.on('turnOffFullScreen', () => {
+    if (mainWindow.isFullScreen()) {
+      mainWindow.setFullScreen(false);
+    }
+  });
+
+  ipcMain.on('toggleFullscreen', () => {
+    mainWindow.setFullScreen(!mainWindow.isFullScreen());
   });
 }
 
@@ -306,7 +340,7 @@ const createWindow = async () => {
   // Open urls in the user's browser
   mainWindow.webContents.setWindowOpenHandler((edata) => {
     shell.openExternal(edata.url);
-    return { action: 'deny' };
+    return {action: 'deny'};
   });
 
   // Remove this if your app does not use auto updates

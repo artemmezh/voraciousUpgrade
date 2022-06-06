@@ -167,6 +167,8 @@ export default class PlayerExportPanel extends Component {
             data: fieldData.get(ankifn).toString('base64'),
           });
         } catch (e) {
+          console.log("error")
+          console.log(e)
           this.setState({
             exporting: false,
             statusMessage: e.toString(),

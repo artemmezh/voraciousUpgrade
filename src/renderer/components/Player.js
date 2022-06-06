@@ -9,6 +9,7 @@ import AnnoText from './AnnoText.js';
 import PlayerExportPanel from './PlayerExportPanel';
 
 import {getChunkAtTime, getPrevChunkAtTime, getNextChunkAtTime} from '../util/chunk';
+import {toggleFullscreen, turnOffFullScreen} from "../windowHelper";
 
 // const { remote } = window.require('electron');
 
@@ -728,17 +729,13 @@ export default class Player extends Component {
     });
   };
 
-  handleToggleFullscreen = () => {
-    const currentWindow = remote.getCurrentWindow();
-    currentWindow.setFullScreen(!currentWindow.isFullScreen());
+  handleToggleFullscreen = async () => {
+    await toggleFullscreen();
   };
 
-  handleExit = () => {
+  handleExit = async () => {
     // Make sure they are out of full screen so they don't get stuck in it
-    const currentWindow = remote.getCurrentWindow();
-    if (currentWindow.isFullScreen()) {
-      currentWindow.setFullScreen(false);
-    }
+    await turnOffFullScreen()
 
     this.savePlaybackPosition();
     this.props.onExit();

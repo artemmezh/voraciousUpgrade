@@ -22,7 +22,7 @@ export const getResourcesPath = async () => {
 };
 
 export const getBinariesPath = () => {
-  let appPath = getAppPath();
+  let appPath = await getAppPath();
   if (appPath.endsWith('.asar')) { //todo испрвить
     appPath += '.unpacked';
   }

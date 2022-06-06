@@ -16,6 +16,8 @@
   },
   "dependencies": {
     "sqlite": "^4.1.1",
-    "sqlite3": "^5.0.8"
+    "sqlite3": "^5.0.8",
+    "tmp-promise": "^1.0.5",
+    "fs-extra": "^7.0.0"
   }
 }

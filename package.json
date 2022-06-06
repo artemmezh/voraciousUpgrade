@@ -127,7 +127,9 @@
     "sqlite": "^4.1.1",
     "sqlite3": "^5.0.8",
     "styled-components": "^5.3.5",
-    "webvtt-parser": "^2.1.2"
+    "webvtt-parser": "^2.1.2",
+    "tmp-promise": "^1.0.5",
+    "fs-extra": "^7.0.0"
   },
   "devDependencies": {
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.6",
