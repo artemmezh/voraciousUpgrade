@@ -17,6 +17,15 @@ import { resolveHtmlPath } from './util';
 import {ElectronSqliteBackend} from './ElectronSqliteBackend.js';
 import { open } from 'sqlite'
 const fs = require("fs-extra");
+const { protocol } = require('electron');
+
+function fileHandler(req, callback){
+  let requestedPath = req.url
+
+  callback({
+    path: requestedPath
+  });
+}
 
 export default class AppUpdater {
   constructor() {
@@ -267,6 +276,7 @@ const createWindow = async () => {
     height: 728,
     icon: getAssetPath('icon.png'),
     webPreferences: {
+      // webSecurity: false,
       preload: app.isPackaged
         ? path.join(__dirname, 'preload.js')
         : path.join(__dirname, '../../.erb/dll/preload.js'),
@@ -321,6 +331,16 @@ app
   .then(() => {
     addIpcHandlers();
     createWindow();
+    protocol.registerFileProtocol("local-video", (req, callback) => {
+      const url = req.url.replace("local-video://", "");
+      const decodedUrl = decodeURI(url); // in case URL contains spaces
+      try {
+        return callback(decodedUrl);
+      } catch (err) {
+        log.error('Invalid video file selected:', err);
+        return callback(404);
+      }
+    });
     app.on('activate', () => {
       // On macOS it's common to re-create a window in the app when the
       // dock icon is clicked and there are no other windows open.

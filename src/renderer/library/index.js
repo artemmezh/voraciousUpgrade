@@ -11,6 +11,7 @@ import { extractAudio, extractFrameImage } from '../util/ffmpeg';
 import {readdir, join, extname, stat, exists, basename, isDirectory, readFile} from "../FileSystems";
 
 const LOCAL_PREFIX = 'local:';
+// const LOCAL_PREFIX = 'your-custom-protocol:';
 
 const SUPPORTED_VIDEO_EXTENSIONS = [
   '.mp4',
@@ -86,6 +87,7 @@ const listVideosRel = async (baseDir, relDir) => {
       id: await join(relDir, vfn),
       name: await basename(vfn, await extname(vfn)),
       url: 'local://' + await join(baseDir, relDir, vfn), // this prefix works with our custom file protocol for Electron
+      // url: 'your-custom-protocol://' + await join(baseDir, relDir, vfn), // this prefix works with our custom file protocol for Electron
       subtitleTrackIds,
     });
   }

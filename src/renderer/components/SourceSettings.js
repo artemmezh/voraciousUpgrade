@@ -11,6 +11,7 @@ import { startsWith, removePrefix } from '../util/string';
 // const { ipcRenderer } = window.require('electron'); // use window to avoid webpack
 
 const LOCAL_PREFIX = 'local://';
+// const LOCAL_PREFIX = 'your-custom-protocol://';
 
 class HiddenFileChooser extends PureComponent {
   choose = () => {

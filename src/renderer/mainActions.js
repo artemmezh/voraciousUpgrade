@@ -344,6 +344,7 @@ export default class MainActions {
 
   addLocalCollection = async (name, directory) => {
     await this._addCollection(name, 'local:'+directory);
+    // await this._addCollection(name, 'your-custom-protocol:'+directory);
     await this._storageSaveProfile();
   };
 

@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 
-import { secondsToTimestamp } from '../util/string';
+import {secondsToTimestamp} from '../util/string';
 
 import './Player.css';
 
@@ -8,7 +8,7 @@ import Select from './Select.js';
 import AnnoText from './AnnoText.js';
 import PlayerExportPanel from './PlayerExportPanel';
 
-import { getChunkAtTime, getPrevChunkAtTime, getNextChunkAtTime } from '../util/chunk';
+import {getChunkAtTime, getPrevChunkAtTime, getNextChunkAtTime} from '../util/chunk';
 
 // const { remote } = window.require('electron');
 
@@ -33,9 +33,12 @@ class Timeline extends Component {
 
 
   render() {
-    const { videoDuration, currentTime, onSlide } = this.props;
+    const {videoDuration, currentTime, onSlide} = this.props;
     return (
-      <input class="video_timeline" type="range" min="0" max={Math.ceil(videoDuration)} value={Math.round(currentTime)} onChange={onSlide} onFocus={this.handleFocus} ref={(el) => { this.elem = el; }} />
+      <input class="video_timeline" type="range" min="0" max={Math.ceil(videoDuration)} value={Math.round(currentTime)} onChange={onSlide}
+             onFocus={this.handleFocus} ref={(el) => {
+        this.elem = el;
+      }}/>
     );
   }
 }
@@ -97,7 +100,8 @@ class VideoWrapper extends Component {
   render() {
     const { videoURL, initialTime, onTimeUpdate, onPlaying, onPause, onEnded, onSeeking, controlsHidden } = this.props;
     var class_names = controlsHidden ? "controls-hide" : "";
-
+    console.log("videoURL")
+    console.log(videoURL)
     // Get timeline info.
     var video_current_time = 0.0;
     var video_duration = 0.0;
@@ -113,14 +117,38 @@ class VideoWrapper extends Component {
     if (this.videoElem && this.videoElem.paused) {
       play_icon = "▶";
     }
-
+    console.log("this.videoElem")
+    console.log(this.videoElem)
+    console.log("video_duration")
+    console.log(video_duration)
+    var re = /local/gi;
+    var newstr = videoURL.replace(re, 'local-video');
+    console.log("newstr");
+    console.log(newstr);
     return (
-      <div class="video_wrapper">
-        <video src={videoURL} onTimeUpdate={e => { onTimeUpdate(e.target.currentTime); }} onPlaying={onPlaying} onPause={onPause} onEnded={onEnded} onSeeking={onSeeking} ref={(el) => { this.videoElem = el; }} onLoadedMetadata={e => { e.target.currentTime = initialTime ? initialTime : 0; }} onCanPlay={this.handleCanPlay} onClick={this.togglePause}/>
+      <div className="video_wrapper">
+        <video src={newstr}
+               onTimeUpdate={e => {
+                 onTimeUpdate(e.target.currentTime);
+               }}
+               onPlaying={onPlaying}
+               onPause={onPause}
+               onEnded={onEnded}
+               onSeeking={onSeeking}
+               ref={(el) => {
+                 this.videoElem = el;
+               }}
+               onLoadedMetadata={e => {
+                 e.target.currentTime = initialTime ? initialTime : 0;
+               }}
+               onCanPlay={this.handleCanPlay}
+               onClick={this.togglePause}
+        />
         <div className={"video_playback_controls " + class_names}>
           <div class="play_button" onClick={this.handlePlayButton}>{play_icon}</div>
-          <span class="video_timestamp">{secondsToTimestamp(video_current_time)}&nbsp;&nbsp;/&nbsp;&nbsp;{secondsToTimestamp(video_duration)}</span>
-          <Timeline videoDuration={video_duration} currentTime={video_current_time} onSlide={this.handleTimelineSlide} />
+          <span
+            class="video_timestamp">{secondsToTimestamp(video_current_time)}&nbsp;&nbsp;/&nbsp;&nbsp;{secondsToTimestamp(video_duration)}</span>
+          <Timeline videoDuration={video_duration} currentTime={video_current_time} onSlide={this.handleTimelineSlide}/>
         </div>
       </div>
     );
@@ -146,7 +174,20 @@ class PlayControls extends Component {
       return;
     }
 
-    const { onBack, onAhead, onReplay, onTogglePause, onContinue, onToggleRuby, onMainSubTransient, onRubyTransient, onToggleHelp, onNumberKey, onExportCard, onToggleFullscreen } = this.props;
+    const {
+      onBack,
+      onAhead,
+      onReplay,
+      onTogglePause,
+      onContinue,
+      onToggleRuby,
+      onMainSubTransient,
+      onRubyTransient,
+      onToggleHelp,
+      onNumberKey,
+      onExportCard,
+      onToggleFullscreen
+    } = this.props;
 
     if (!e.repeat) {
       if ((e.keyCode >= 49) && (e.keyCode <= 57)) {
@@ -225,7 +266,7 @@ class PlayControls extends Component {
       return;
     }
 
-    const { onMainSubTransient, onRubyTransient } = this.props;
+    const {onMainSubTransient, onRubyTransient} = this.props;
 
     if (!e.repeat) {
       switch (e.keyCode) {
@@ -322,13 +363,13 @@ export default class Player extends Component {
   }
 
   handleMouseMove = () => {
-    this.setState({ controlsHidden: false });
+    this.setState({controlsHidden: false});
     window.clearTimeout(this.hideUITimer);
     this.hideUITimer = window.setTimeout(this.handleMouseMoveTimeout, 2000);
   };
 
   handleMouseMoveTimeout = () => {
-    this.setState({ controlsHidden: true });
+    this.setState({controlsHidden: true});
     window.clearTimeout(this.hideUITimer);
   };
 
@@ -345,9 +386,9 @@ export default class Player extends Component {
 
   initialSubtitleState = (mode) => {
     if ((mode === 'qcheck') || (mode === 'listen')) {
-      return { tracksRevealed: 0};
+      return {tracksRevealed: 0};
     } else if (mode === 'manual') {
-      return { trackHidden: [] };
+      return {trackHidden: []};
     } else {
       return null;
     }
@@ -517,7 +558,7 @@ export default class Player extends Component {
           const nextChunk = getNextChunkAtTime(firstTrack.chunkSet, this.state.displayedSubTime);
 
           if (nextChunk) {
-            this.videoMediaComponent.seek(nextChunk.position.begin+0.05); // add a bit to fix a precision bug
+            this.videoMediaComponent.seek(nextChunk.position.begin + 0.05); // add a bit to fix a precision bug
 
             // If in read mode, we miss the start by jumping ahead, so we need to pause here
             if (this.state.subtitleMode === 'read') {
@@ -536,7 +577,7 @@ export default class Player extends Component {
       const currentChunk = (this.state.displayedSubs.length > 0) ? this.state.displayedSubs[0].chunk : null;
 
       if (currentChunk) {
-        this.videoMediaComponent.seek(currentChunk.position.begin+0.05); // add a bit to fix a precision bug
+        this.videoMediaComponent.seek(currentChunk.position.begin + 0.05); // add a bit to fix a precision bug
         this.videoMediaComponent.play();
       }
     }
@@ -600,12 +641,12 @@ export default class Player extends Component {
   };
 
   handleToggleRuby = () => {
-    const { preferences, onSetPreference } = this.props;
+    const {preferences, onSetPreference} = this.props;
     onSetPreference('showRuby', !preferences.showRuby);
   };
 
   handleRubyTransient = (set_on) => {
-    const { preferences, onSetPreference } = this.props;
+    const {preferences, onSetPreference} = this.props;
     if (set_on) {
       if (!preferences.showRuby) {
         this.setState({transientRubyOn: true});
@@ -644,7 +685,7 @@ export default class Player extends Component {
   };
 
   handleToggleHelp = () => {
-    const { preferences, onSetPreference } = this.props;
+    const {preferences, onSetPreference} = this.props;
     onSetPreference('showHelp', !preferences.showHelp);
   };
 
@@ -704,7 +745,7 @@ export default class Player extends Component {
   }
 
   render() {
-    const { video } = this.props;
+    const {video} = this.props;
 
     var playerStyle = this.state.controlsHidden ? {
       cursor: 'none',
@@ -714,9 +755,21 @@ export default class Player extends Component {
       <div className="Player" style={playerStyle}>
         <div className="Player-main">
           <div className="Player-video-area">
-            <VideoWrapper videoURL={video.videoURL} initialTime={video.playbackPosition} onTimeUpdate={this.handleVideoTimeUpdate} onPlaying={this.handleVideoPlaying} onPause={this.handleVideoPause} onEnded={this.handleVideoEnded} onSeeking={this.handleVideoSeeking} onNoAudio={this.handleNoAudio} ref={(c) => { this.videoMediaComponent = c; }} controlsHidden={this.state.controlsHidden} />
+            <VideoWrapper videoURL={video.videoURL}
+                          initialTime={video.playbackPosition}
+                          onTimeUpdate={this.handleVideoTimeUpdate}
+                          onPlaying={this.handleVideoPlaying}
+                          onPause={this.handleVideoPause}
+                          onEnded={this.handleVideoEnded}
+                          onSeeking={this.handleVideoSeeking}
+                          onNoAudio={this.handleNoAudio}
+                          ref={(c) => {
+                            this.videoMediaComponent = c;
+                          }}
+                          controlsHidden={this.state.controlsHidden}
+            />
             <div className="Player-text-chunks">
-              {this.state.displayedSubs.map(({ subTrack, chunk }, subTrackIdx) => {
+              {this.state.displayedSubs.map(({subTrack, chunk}, subTrackIdx) => {
                 let hidden = false;
 
                 if (((this.state.subtitleMode === 'qcheck') || (this.state.subtitleMode === 'listen')) && (subTrackIdx >= this.state.subtitleState.tracksRevealed)) {
@@ -735,7 +788,12 @@ export default class Player extends Component {
                           </div>
                         ) : null}
                         <span className={'Player-text-chunk-annotext Player-text-chunk-annotext-' + (hidden ? 'hidden' : 'visible')}>
-                          <AnnoText key={chunk.uid} annoText={chunk.annoText} language={subTrack.language} showRuby={this.props.preferences.showRuby} searchDictionaries={this.props.searchDictionaries} getWordFromList={this.props.getWordFromList} setWordInList={this.props.setWordInList} ref={(subTrackIdx === 0) ? (c => { this.firstAnnoTextComponent = c; }) : null} />
+                          <AnnoText key={chunk.uid} annoText={chunk.annoText} language={subTrack.language}
+                                    showRuby={this.props.preferences.showRuby} searchDictionaries={this.props.searchDictionaries}
+                                    getWordFromList={this.props.getWordFromList} setWordInList={this.props.setWordInList}
+                                    ref={(subTrackIdx === 0) ? (c => {
+                                      this.firstAnnoTextComponent = c;
+                                    }) : null}/>
                         </span>
                       </span>
                     </span>
@@ -744,35 +802,78 @@ export default class Player extends Component {
               })}
             </div>
           </div>
-          <PlayControls onBack={this.handleBack} onAhead={this.handleAhead} onReplay={this.handleReplay} onTogglePause={this.handleTogglePause} onContinue={this.handleContinue} onToggleRuby={this.handleToggleRuby} onMainSubTransient={this.handleMainSubTransient} onRubyTransient={this.handleRubyTransient} onToggleHelp={this.handleToggleHelp} onNumberKey={this.handleNumberKey} onExportCard={this.handleExportCard} onToggleFullscreen={this.handleToggleFullscreen} />
+          <PlayControls onBack={this.handleBack} onAhead={this.handleAhead} onReplay={this.handleReplay}
+                        onTogglePause={this.handleTogglePause} onContinue={this.handleContinue} onToggleRuby={this.handleToggleRuby}
+                        onMainSubTransient={this.handleMainSubTransient} onRubyTransient={this.handleRubyTransient}
+                        onToggleHelp={this.handleToggleHelp} onNumberKey={this.handleNumberKey} onExportCard={this.handleExportCard}
+                        onToggleFullscreen={this.handleToggleFullscreen}/>
         </div>
         {(
-          <button className={this.state.controlsHidden ? "Player-big-button Player-exit-button controls-hide" : "Player-big-button Player-exit-button"} onClick={this.handleExit}>↩</button>
+          <button
+            className={this.state.controlsHidden ? "Player-big-button Player-exit-button controls-hide" : "Player-big-button Player-exit-button"}
+            onClick={this.handleExit}>↩</button>
         )}
         {(
           <div className={this.state.controlsHidden ? "Player-subtitle-controls-panel controls-hide" : "Player-subtitle-controls-panel"}>
             Subtitle Mode:&nbsp;&nbsp;
-            <Select options={Object.entries(MODE_TITLES).map(([k, v]) => ({value: k, label: v}))} onChange={this.handleSetSubtitleMode} value={this.state.subtitleMode} />&nbsp;&nbsp;
-            <button onClick={e => { e.preventDefault(); this.handleToggleHelp(); }}>Toggle Help</button>
+            <Select options={Object.entries(MODE_TITLES).map(([k, v]) => ({value: k, label: v}))} onChange={this.handleSetSubtitleMode}
+                    value={this.state.subtitleMode}/>&nbsp;&nbsp;
+            <button onClick={e => {
+              e.preventDefault();
+              this.handleToggleHelp();
+            }}>Toggle Help
+            </button>
           </div>
         )}
         <div className="Player-help-panel" style={{display: this.props.preferences.showHelp ? 'block' : 'none'}}>
           <div className="Player-help-panel-section">
             <div className="Player-help-panel-header">Keyboard Controls</div>
-            <table><tbody>
-              <tr><td>Replay Sub:</td><td>&darr;</td></tr>
-              <tr><td>Reveal Sub /<br/>Unpause:</td><td>&uarr;</td></tr>
-              <tr><td>Previous Sub:</td><td>&larr;</td></tr>
-              <tr><td>Next Sub:</td><td>&rarr;</td></tr>
-              <tr><td>Pause/Unpause:</td><td>space</td></tr>
-              <tr><td>Export To Anki:</td><td>E</td></tr>
-              <tr><td>Toggle Fullscreen:</td><td>F</td></tr>
-              <tr><td>Toggle Furigana/Ruby:</td><td>R / `</td></tr>
-              <tr><td>Toggle Help:</td><td>H</td></tr>
+            <table>
+              <tbody>
+              <tr>
+                <td>Replay Sub:</td>
+                <td>&darr;</td>
+              </tr>
+              <tr>
+                <td>Reveal Sub /<br/>Unpause:</td>
+                <td>&uarr;</td>
+              </tr>
+              <tr>
+                <td>Previous Sub:</td>
+                <td>&larr;</td>
+              </tr>
+              <tr>
+                <td>Next Sub:</td>
+                <td>&rarr;</td>
+              </tr>
+              <tr>
+                <td>Pause/Unpause:</td>
+                <td>space</td>
+              </tr>
+              <tr>
+                <td>Export To Anki:</td>
+                <td>E</td>
+              </tr>
+              <tr>
+                <td>Toggle Fullscreen:</td>
+                <td>F</td>
+              </tr>
+              <tr>
+                <td>Toggle Furigana/Ruby:</td>
+                <td>R / `</td>
+              </tr>
+              <tr>
+                <td>Toggle Help:</td>
+                <td>H</td>
+              </tr>
               {(this.state.subtitleMode === 'manual') ? (
-                <tr><td>Hide/Show<br />Sub Track:</td><td>[1-9]</td></tr>
+                <tr>
+                  <td>Hide/Show<br/>Sub Track:</td>
+                  <td>[1-9]</td>
+                </tr>
               ) : null}
-            </tbody></table>
+              </tbody>
+            </table>
           </div>
           <div className="Player-help-panel-section">
             <div className="Player-help-panel-header">Mode: {MODE_TITLES[this.state.subtitleMode]}</div>
@@ -780,22 +881,29 @@ export default class Player extends Component {
               switch (this.state.subtitleMode) {
                 case 'manual':
                   return (
-                    <div>Manually toggle the display of each subtitle track using the number keys (e.g. 1 for the first track). To be honest, this mode is pretty boring and you should try the others.</div>
+                    <div>Manually toggle the display of each subtitle track using the number keys (e.g. 1 for the first track). To be
+                      honest, this mode is pretty boring and you should try the others.</div>
                   );
 
                 case 'qcheck':
                   return (
-                    <div>Subtitles are normally hidden, but when you press &darr; the video is paused and the (first) subtitle track is revealed. Press &darr; to reveal more subtitle tracks, if any. Then press &darr; to unpause the video and continue. This mode is useful if you can generally understand the video and want to avoid reading the subtitles unless you need them.</div>
+                    <div>Subtitles are normally hidden, but when you press &darr; the video is paused and the (first) subtitle track is
+                      revealed. Press &darr; to reveal more subtitle tracks, if any. Then press &darr; to unpause the video and continue.
+                      This mode is useful if you can generally understand the video and want to avoid reading the subtitles unless you need
+                      them.</div>
                   );
 
                 case 'listen':
                   return (
-                    <div>Subtitles are initially hidden. At the end of each subtitle, the video will pause automatically. Could you hear what was said? Press &uarr; to replay, if necessary. Then press the &darr; key to reveal the subs, and check if you heard correctly. Then press &darr; to unpause the video.</div>
+                    <div>Subtitles are initially hidden. At the end of each subtitle, the video will pause automatically. Could you hear
+                      what was said? Press &uarr; to replay, if necessary. Then press the &darr; key to reveal the subs, and check if you
+                      heard correctly. Then press &darr; to unpause the video.</div>
                   );
 
                 case 'read':
                   return (
-                    <div>At the start of each new subtitle, the video will pause automatically. Try reading the sub. Then press &darr; to unpause the video, and hear it spoken. Did you read it correctly?</div>
+                    <div>At the start of each new subtitle, the video will pause automatically. Try reading the sub. Then press &darr; to
+                      unpause the video, and hear it spoken. Did you read it correctly?</div>
                   );
 
                 default:
@@ -804,16 +912,18 @@ export default class Player extends Component {
             })()}
           </div>
         </div>
-        { this.state.noAudio ? (
+        {this.state.noAudio ? (
           <div className="Player-no-audio-warning-layer">
             <div className="Player-no-audio-warning">
-              video file has no audio or<br />an unsupported audio codec
+              video file has no audio or<br/>an unsupported audio codec
             </div>
           </div>
         ) : null}
-        { this.state.exporting ? (
+        {this.state.exporting ? (
           <div className="Player-export-panel">
-            <PlayerExportPanel ankiPrefs={this.props.ankiPrefs} onExtractAudio={this.props.onExtractAudio} onExtractFrameImage={this.props.onExtractFrameImage} onDone={this.handleExportDone} {...this.state.exporting} />
+            <PlayerExportPanel ankiPrefs={this.props.ankiPrefs} onExtractAudio={this.props.onExtractAudio}
+                               onExtractFrameImage={this.props.onExtractFrameImage}
+                               onDone={this.handleExportDone} {...this.state.exporting} />
           </div>
         ) : null}
       </div>
