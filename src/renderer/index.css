@@ -1,0 +1,48 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+/*@import url('https://fonts.googleapis.com/css?family=Muli|Quicksand');*/
+
+@font-face {
+  font-family: "Muli";
+  src: url("./fonts/Muli-Regular.ttf");
+}
+
+@font-face {
+  font-family: "Quicksand";
+  src: url("./fonts/Quicksand-Regular.ttf");
+}
+
+body {
+  font-family: 'Muli', sans-serif;
+}
+
+.header-font {
+  font-family: 'Quicksand', sans-serif;
+}
+
+form {
+  margin-bottom: 0;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+li {
+  padding: 0;
+}

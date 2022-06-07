@@ -68,7 +68,6 @@ const SavedWordRecord = new Record({
 export default class MainActions {
   constructor(subscribableState) {
     this.state = subscribableState;
-    console.log('in main action constructor')
     this.initializeState().then(() => {
       console.log('MainActions state initialized');
     });
@@ -180,12 +179,8 @@ export default class MainActions {
     console.log("loading profile...")
     const profileStr = await this.storage.getItemMaybe('profile');
     // const profileStr = await window.electron.ipcRenderer.invoke("sqliteGetItemMaybe", ['profile'])
-    console.log("profileStr")
-    console.log(profileStr)
 
     if (profileStr) {
-      console.log("inside profileStr")
-      const profile = jpar(profileStr);
       console.log(profile.collections)
       for (const col of profile.collections) {
         await this._addCollection(col.name, col.locator);
@@ -208,8 +203,6 @@ export default class MainActions {
         fieldMap: new OrderedMap(profile.preferences.anki.fieldMap),
       });
       this.state.set(this.state.get().setIn(['preferences', 'anki'], ankiPrefRecord));
-      console.log('state->>>>>')
-      console.log(this.state)
     } else {
       // Key wasn't present, so initialize to default state
       console.log("profile not loaded...")

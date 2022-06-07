@@ -51,14 +51,9 @@ const Hello = () => {
 
 
 export default function App(subscribableMainState, actions) {
-  console.log("subscribableMainState-> ");
-  console.log(subscribableMainState);
-  console.log("actions-> ");
-  console.log(actions);
+
   const mainState = subscribableMainState.mainState.state;
-  console.log("mainState")
-  console.log(mainState)
-  console.log(this.props)
+
   // const { mainState, actions } = this.props;
   if (mainState.modalLoadingMessage) {
     return <WidthWrapper><h1 className="header-font">{mainState.modalLoadingMessage}</h1></WidthWrapper>;

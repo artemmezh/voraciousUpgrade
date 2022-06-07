@@ -22,9 +22,6 @@ const loadAndIndexYomichanZip = async (zipfn, builtin, reportProgress) => {
 };
 
 const scanDirForYomichanZips = async (dir, builtin, reportProgress) => {
-  console.log("start scanDirForYomichanZips")
-  console.log("dir:")
-  console.log(dir)
   const result = [];
   const dirents = await readdir(dir);
   for (const dirent of dirents) {

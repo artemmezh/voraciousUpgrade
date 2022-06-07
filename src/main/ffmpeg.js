@@ -26,8 +26,6 @@ export const getBinariesPath = () => {
 
 export const extractAudio = async (vidfn, startTime, endTime) => {
   const tmpfile = await tmp.file({keep: true, postfix: '.mp3'});
-  console.log("startTime")
-  console.log(startTime)
   await new Promise((resolve, reject) => {
     const subp = spawn(
       getBinaryFilename(),

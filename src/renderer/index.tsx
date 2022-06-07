@@ -2,6 +2,7 @@ import {createRoot} from 'react-dom/client';
 import App from './components/App';
 import MainActions from './mainActions';
 import {SubscribableState, StateMapper} from './ruxx';
+import './index.css';
 
 const subscribableMainState = new SubscribableState();
 const actions = new MainActions(subscribableMainState);

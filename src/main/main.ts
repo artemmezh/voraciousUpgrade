@@ -59,8 +59,6 @@ ipcMain.on('ipc-example', async (event, arg) => {
 //==============
 
 ipcMain.handle('extractAudio', async (event, args) => {
-  console.log("extractAudio")
-  console.log(args)
   const vidfn = args[0];
   const startTime = args[1];
   const endTime = args[2];
@@ -68,8 +66,6 @@ ipcMain.handle('extractAudio', async (event, args) => {
 })
 
 ipcMain.handle('extractFrameImage', async (event, args) => {
-  console.log("extractFrameImage")
-  console.log(args)
   const vidfn = args[0];
   const time = args[1];
   return extractFrameImage(vidfn, time);
@@ -261,15 +257,10 @@ function addIpcHandlers() {
       buttonLabel: 'Choose',
       properties: ['openDirectory'],
     }).then(files => {
-      console.log('files')
-      console.log(files)
       const filePaths = files.filePaths
       if (filePaths && filePaths.length) {
         const dir = filePaths[0];
-        console.log(dir)
         const basename = path.basename(dir);
-        console.log("basename->>>>")
-        console.log(basename)
         mainWindow.send('chose-directory', basename, dir)
       }
     });

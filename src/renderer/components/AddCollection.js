@@ -26,13 +26,10 @@ export default class AddCollection extends Component {
   }
 
   handleNameChange = (e) => {
-    console.log("handleNameChange")
     this.setState({collectionName: e.target.value});
   };
 
   handleIpcChoseCollectionDirectory = (e, basename, dir) => {
-    console.log("handleIpcChoseCollectionDirectory")
-    console.log(basename)
     this.setState({collectionDirectory: dir});
     if (!this.state.collectionName) {
       this.setState({collectionName: basename});
@@ -40,13 +37,11 @@ export default class AddCollection extends Component {
   };
 
   handleClickChooseCollectionDirectory = (e) => {
-    console.log("handleClickChooseCollectionDirectory")
     e.preventDefault();
     window.electron.ipcRenderer.sendMessage('choose-directory', 'Select collection folder');
   };
 
   handleAddCollection = () => {
-    console.log("handleAddCollection")
     this.props.onAdd(this.state.collectionName, this.state.collectionDirectory);
   };
 
