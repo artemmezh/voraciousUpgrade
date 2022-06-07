@@ -51,7 +51,7 @@ export const extractAudio = async (vidfn, startTime, endTime) => {
     });
   });
 
-  const data = await fs.readFile(tmpfile.path, 'ascii');
+  const data = await fs.readFile(tmpfile.path, 'base64');
 
   tmpfile.cleanup();
 
