@@ -274,6 +274,7 @@ export const extractAudioFromVideo = async (collectionLocator, vidId, startTime,
     const baseDirectory = collectionLocator.slice(LOCAL_PREFIX.length);
     const vidfn = await join(baseDirectory, vidId);
     const audioData = await extractAudio(vidfn, startTime, endTime);
+    console.log(audioData);
     return audioData;
   } else {
     throw new Error('not a local collection');

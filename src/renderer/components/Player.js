@@ -101,8 +101,7 @@ class VideoWrapper extends Component {
   render() {
     const { videoURL, initialTime, onTimeUpdate, onPlaying, onPause, onEnded, onSeeking, controlsHidden } = this.props;
     var class_names = controlsHidden ? "controls-hide" : "";
-    console.log("videoURL")
-    console.log(videoURL)
+
     // Get timeline info.
     var video_current_time = 0.0;
     var video_duration = 0.0;
@@ -118,14 +117,10 @@ class VideoWrapper extends Component {
     if (this.videoElem && this.videoElem.paused) {
       play_icon = "▶";
     }
-    console.log("this.videoElem")
-    console.log(this.videoElem)
-    console.log("video_duration")
-    console.log(video_duration)
+
     var re = /local/gi;
     var newstr = videoURL.replace(re, 'local-video');
-    console.log("newstr");
-    console.log(newstr);
+
     return (
       <div className="video_wrapper">
         <video src={newstr}
