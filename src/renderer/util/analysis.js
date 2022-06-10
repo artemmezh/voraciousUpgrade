@@ -2,8 +2,8 @@ import { hiraToKata, kataToHira, anyCharIsKana } from '../util/japanese';
 import DiffMatchPatch from 'diff-match-patch';
 import { create as createAnnoText } from './annotext';
 import { cpSlice } from '../util/string';
-const kuromoji = window.kuromoji; // loaded by script tag in index.html, we do this to avoid lint warning
-
+// const kuromoji = window.kuromoji; // loaded by script tag in index.html, we do this to avoid lint warning
+import {builder} from '../kuromoji/kuromoji.js'
 const dmp = new DiffMatchPatch();
 
 let kuromojiTokenizer = null;
@@ -13,7 +13,7 @@ export const startLoadingKuromoji = () => {
   console.log('Loading Kuromoji ...');
   const dicPath = window.location.href.startsWith('file:') ? './kuromoji/dict/' : '/kuromoji/dict/';
   kuromojiLoadPromise = new Promise(resolve =>
-    kuromoji.builder({ dicPath }).build(function (err, tokenizer) {
+    builder({ dicPath }).build(function (err, tokenizer) {
       console.log('Kuromoji loaded');
       kuromojiTokenizer = tokenizer;
       resolve();

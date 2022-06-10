@@ -242,7 +242,8 @@ const loadSubtitleTrackFromFile = async (filename) => {
   const language = detectIso6393(combinedText);
 
   // Create time-indexed subtitle track
-  //await ensureKuromojiLoaded(); // wait until kuromoji has loaded todo do loading of dictionary
+  console.log("kuromoji->>>>>>>>")
+  await ensureKuromojiLoaded(); // wait until kuromoji has loaded todo do loading of dictionary
   const chunks = [];
   for (const sub of subs) {
     const annoText = await createAutoAnnotatedText(sub.lines, language);
@@ -274,7 +275,6 @@ export const extractAudioFromVideo = async (collectionLocator, vidId, startTime,
     const baseDirectory = collectionLocator.slice(LOCAL_PREFIX.length);
     const vidfn = await join(baseDirectory, vidId);
     const audioData = await extractAudio(vidfn, startTime, endTime);
-    console.log(audioData);
     return audioData;
   } else {
     throw new Error('not a local collection');

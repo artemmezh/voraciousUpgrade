@@ -14,6 +14,7 @@ import baseConfig from './webpack.config.base';
 import webpackPaths from './webpack.paths';
 import checkNodeEnv from '../scripts/check-node-env';
 import deleteSourceMaps from '../scripts/delete-source-maps';
+import CopyPlugin from "copy-webpack-plugin";
 
 checkNodeEnv('production');
 deleteSourceMaps();
@@ -107,7 +108,15 @@ const configuration: webpack.Configuration = {
     new BundleAnalyzerPlugin({
       analyzerMode: process.env.ANALYZE === 'true' ? 'server' : 'disabled',
     }),
-
+    new CopyPlugin({
+      patterns: [
+        {
+          from: '/Users/artemme/IdeaProjects/artemmezh/voraciousUpgrade/public/kuromoji/dict/',
+          to: webpackPaths.distRendererPath + '/kuromoji/dict/',
+          toType: 'dir'
+        }
+      ],
+    }),
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: path.join(webpackPaths.srcRendererPath, 'index.ejs'),
