@@ -29,11 +29,8 @@ const configuration: webpack.Configuration = {
   ...devtoolsConfig,
 
   mode: 'production',
-
   target: ['web', 'electron-renderer'],
-
   entry: [path.join(webpackPaths.srcRendererPath, 'index.tsx')],
-
   output: {
     path: webpackPaths.distRendererPath,
     publicPath: './',
@@ -42,7 +39,6 @@ const configuration: webpack.Configuration = {
       type: 'umd',
     },
   },
-
   module: {
     rules: [
       {

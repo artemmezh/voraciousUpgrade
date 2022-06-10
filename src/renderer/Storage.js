@@ -18,4 +18,8 @@ export class Storage {
   async setWord(...args) {
     return window.electron.ipcRenderer.invoke('setWord', args)
   }
+
+  async initDb(...args) {
+    return window.electron.ipcRenderer.invoke('initDb', args)
+  }
 }

@@ -114,6 +114,7 @@
     "electron-log": "^4.4.7",
     "electron-updater": "^5.0.1",
     "franc": "^4.0.0",
+    "fs-extra": "^7.0.0",
     "iconv-lite": "^0.4.24",
     "immutable": "^3.8.1",
     "jschardet": "^1.6.0",
@@ -127,9 +128,8 @@
     "sqlite": "^4.1.1",
     "sqlite3": "^5.0.8",
     "styled-components": "^5.3.5",
-    "webvtt-parser": "^2.1.2",
     "tmp-promise": "^1.0.5",
-    "fs-extra": "^7.0.0"
+    "webvtt-parser": "^2.1.2"
   },
   "devDependencies": {
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.6",
@@ -149,6 +149,7 @@
     "browserslist-config-erb": "^0.0.3",
     "chalk": "^4.1.2",
     "concurrently": "^7.1.0",
+    "copy-webpack-plugin": "^11.0.0",
     "core-js": "^3.22.5",
     "cross-env": "^7.0.3",
     "css-loader": "^6.7.1",
@@ -258,7 +259,14 @@
     },
     "extraResources": [
       "./assets/**",
-      "./node_modules/@electron/remote/**"
+      "./node_modules/@electron/remote/**",
+      {
+        "from": "./resources/",
+        "to": "app.asar.unpacked/resources/",
+        "filter": [
+          "**/*"
+        ]
+      }
     ],
     "publish": {
       "provider": "github",

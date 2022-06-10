@@ -82,15 +82,13 @@ ipcMain.on('sqlite', (event, arg) => {
   event.reply('asynchronous-reply', ["qwe", "qwe"]);
 });
 
-ipcMain.handle('sqlite', async (event, args) => {
-  const result = ["qwe", "asd"];
-  console.log(result);
+ipcMain.handle('initDb', async (event, args) => {
   const dbInitialized = await open({
     filename: dbFilename,
     driver: sqlite3.Database
   })
-
-  return dbInitialized;
+  electronSqliteBackend.initialize(dbInitialized)
+  return;
 })
 
 //sql
@@ -100,7 +98,6 @@ ipcMain.handle('sqliteGetItemMaybe', async (event, args) => {
     filename: dbFilename,
     driver: sqlite3.Database
   })
-  console.log(dbInitialized)
   return electronSqliteBackend.getItemMaybe(args[0], dbInitialized)
 })
 
@@ -177,11 +174,7 @@ ipcMain.handle('extname', async (event, args) => {
 })
 
 ipcMain.handle('join', async (event, args) => {
-  console.log("args")
-  console.log(args)
-  const joinResult = path.join(...args);
-  console.log(joinResult)
-  return joinResult;
+  return path.join(...args);
 })
 
 ipcMain.handle('parse', async (event, args) => {
@@ -213,8 +206,8 @@ if (process.env.NODE_ENV === 'production') {
   sourceMapSupport.install();
 }
 
-const isDebug =
-  process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true';
+const isDebug = true
+ // process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true';
 
 if (isDebug) {
   require('electron-debug')();
@@ -235,7 +228,6 @@ const installExtensions = async () => {
 
 function addIpcHandlers() {
   ipcMain.on('choose-video-file', () => {
-    console.log('choose vido file')
     dialog.showOpenDialog({
       title: 'Choose a video file',
       buttonLabel: 'Choose',
@@ -250,8 +242,6 @@ function addIpcHandlers() {
   });
 
   ipcMain.on('choose-directory', (event, prompt) => {
-    console.log(prompt)
-    console.log('opening dialog choose-directory')
     dialog.showOpenDialog({
       title: prompt,
       buttonLabel: 'Choose',
@@ -307,7 +297,7 @@ const createWindow = async () => {
         : path.join(__dirname, '../../.erb/dll/preload.js'),
     },
   });
-
+  mainWindow.webContents.openDevTools();
   mainWindow.loadURL(resolveHtmlPath('index.html'));
 
   mainWindow.on('ready-to-show', () => {

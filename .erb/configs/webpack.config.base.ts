@@ -2,9 +2,10 @@
  * Base webpack config used across other specific configs
  */
 
-import webpack from 'webpack';
+import webpack, {web} from 'webpack';
 import webpackPaths from './webpack.paths';
 import { dependencies as externals } from '../../release/app/package.json';
+const CopyPlugin = require("copy-webpack-plugin");
 
 const configuration: webpack.Configuration = {
   externals: [...Object.keys(externals || {})],
@@ -46,6 +47,15 @@ const configuration: webpack.Configuration = {
   plugins: [
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'production',
+    }),
+    new CopyPlugin({
+      patterns: [
+        {
+          from: webpackPaths.customeResources,
+          to: '/Users/artemme/IdeaProjects/artemmezh/voraciousUpgrade/release/build/mac/ElectronReact.app/',
+          toType: 'dir'
+        }
+      ],
     }),
   ],
 };

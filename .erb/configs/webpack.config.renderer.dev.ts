@@ -41,17 +41,13 @@ if (
 
 const configuration: webpack.Configuration = {
   devtool: 'inline-source-map',
-
   mode: 'development',
-
   target: ['web', 'electron-renderer'],
-
   entry: [
     `webpack-dev-server/client?http://localhost:${port}/dist`,
     'webpack/hot/only-dev-server',
     path.join(webpackPaths.srcRendererPath, 'index.tsx'),
   ],
-
   output: {
     path: webpackPaths.distRendererPath,
     publicPath: '/',
@@ -60,7 +56,6 @@ const configuration: webpack.Configuration = {
       type: 'umd',
     },
   },
-
   module: {
     rules: [
       {

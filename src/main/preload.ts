@@ -4,7 +4,8 @@ export type Channels =
   'ipc-example' | 'sqlite' | 'sqliteGetItemMaybe' | 'sqliteSetItem' | 'readdir' | 'exists' |
   'extname' | 'join' | 'readFile' | 'parse' | 'ensureDir' | 'stat' | 'basename' | 'getAppPath' |
   'getPath' | 'endsWith' | 'getVersion' | 'getWordMaybe' | 'setWord' | 'getAllWords' | 'setItem'|
-  'choose-directory' | 'chose-directory' | 'isDirectory' | 'turnOffFullScreen' | 'toggleFullscreen' | 'extractAudio' | 'extractFrameImage';
+  'choose-directory' | 'chose-directory' | 'isDirectory' | 'turnOffFullScreen' | 'toggleFullscreen' |
+  'extractAudio' | 'extractFrameImage' | 'initDb';
 export type sqlite3 = 'sqlite3'
 
 contextBridge.exposeInMainWorld('electron', {

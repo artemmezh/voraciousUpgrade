@@ -79,7 +79,7 @@ export default class MainActions {
     this._setLoadingMessage('Loading profile...');
 
     this.storage = new Storage();
-
+    await this.storage.initDb();
     await this._storageLoadProfile();
 
     // if (!window.electron.remote.commandLine.hasSwitch('--nodicts')) {
@@ -181,7 +181,7 @@ export default class MainActions {
     // const profileStr = await window.electron.ipcRenderer.invoke("sqliteGetItemMaybe", ['profile'])
 
     if (profileStr) {
-      console.log(profile.collections)
+      const profile = jpar(profileStr);
       for (const col of profile.collections) {
         await this._addCollection(col.name, col.locator);
       }

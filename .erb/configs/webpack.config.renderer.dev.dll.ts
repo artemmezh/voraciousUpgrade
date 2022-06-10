@@ -16,24 +16,17 @@ const dist = webpackPaths.dllPath;
 
 const configuration: webpack.Configuration = {
   context: webpackPaths.rootPath,
-
   devtool: 'eval',
-
   mode: 'development',
-
   target: 'electron-renderer',
-
   externals: ['fsevents', 'crypto-browserify'],
-
   /**
    * Use `module` from `webpack.config.renderer.dev.js`
    */
   module: require('./webpack.config.renderer.dev').default.module,
-
   entry: {
     renderer: Object.keys(dependencies || {}),
   },
-
   output: {
     path: dist,
     filename: '[name].dev.dll.js',
@@ -42,7 +35,6 @@ const configuration: webpack.Configuration = {
       type: 'var',
     },
   },
-
   plugins: [
     new webpack.DllPlugin({
       path: path.join(dist, '[name].json'),
