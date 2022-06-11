@@ -1,7 +1,8 @@
 import { getBinariesPath, getUserDataPath } from '../util/appPaths';
 
 export const importEpwing = async (epwingDir) => {
-  const yomichanImportDir = join(getBinariesPath(), 'yomichan-import');
+  const binariesPath = await getBinariesPath();
+  const yomichanImportDir = join(binariesPath, 'yomichan-import');
   let yomichanImport = join(yomichanImportDir, 'yomichan-import');
   //todo create supplier for plaform
   // if (process.platform === 'win32') {
@@ -11,7 +12,8 @@ export const importEpwing = async (epwingDir) => {
   // Make destination filename based on src, that doesn't conflict
   // TODO: ensure that epwingDir is a directory?
   const srcBase =  window.electron.ipcRenderer.invoke('parse', [epwingDir]).name;
-  const destDir = join(getUserDataPath(), 'dictionaries');
+  const userDataPath = await getUserDataPath();
+  const destDir = join(userDataPath, 'dictionaries');
   await window.electron.ipcRenderer.invoke('ensureDir', [destDir]);
 
   let idx = 0;

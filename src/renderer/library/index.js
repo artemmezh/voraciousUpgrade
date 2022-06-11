@@ -5,16 +5,15 @@ import { parseSRT, parseVTT, parseASS } from '../util/subtitleParsing';
 import { ensureKuromojiLoaded, createAutoAnnotatedText } from '../util/analysis';
 import { detectIso6393 } from '../util/languages';
 import { createTimeRangeChunk, createTimeRangeChunkSet } from '../util/chunk';
-import {extractAudio, extractFrameImage} from "../ipc/FfmpegHelper";
-import {readdir, join, extname, stat, exists, basename, isDirectory, readFile} from "../ipc/FileSystems";
+import {extractAudio, extractFrameImage} from "../ipc/ffmpegHelper";
+import {readdir, exists, isDirectory, readFile} from "../ipc/fileSystems";
+import {join, extname, basename} from "../ipc/path"
 
 const LOCAL_PREFIX = 'local:';
-
 const SUPPORTED_VIDEO_EXTENSIONS = [
   '.mp4',
   '.mkv',
 ];
-
 const SEASON_EPISODE_PATTERN = /s([0-9]+)e([0-9]+)/i;
 const EPISODE_PATTERN = /ep([0-9]+)/i;
 const SUBTITLE_LANG_EXTENSION_PATTERN = /(.*)\.([a-zA-Z]{2,3})\.(srt|vtt|ass)/i;
@@ -30,7 +29,6 @@ const listVideosRel = async (baseDir, relDir) => {
 
   for (const fn of dirents) {
     const absfn = await join(baseDir, relDir, fn);
-    console.log(absfn);
     const isDir = await isDirectory(absfn);
 
     if (!isDir) {
@@ -236,8 +234,7 @@ const loadSubtitleTrackFromFile = async (filename) => {
   const combinedText = subs.map(s => s.lines).join();
   const language = detectIso6393(combinedText);
   // Create time-indexed subtitle track
-  console.log("kuromoji->>>>>>>>")
-  await ensureKuromojiLoaded(); // wait until kuromoji has loaded todo do loading of dictionary
+  await ensureKuromojiLoaded(); // wait until kuromoji has loaded
   const chunks = [];
   for (const sub of subs) {
     const annoText = await createAutoAnnotatedText(sub.lines, language);

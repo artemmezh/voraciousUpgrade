@@ -6,11 +6,11 @@ import SettingsSubOrder from './SettingsSubOrder';
 import SettingsSubIgnores from './SettingsSubIgnores';
 import SettingsAnki from './SettingsAnki';
 import SystemBrowserLink from './SystemBrowserLink.js';
-import {getVersion} from "../ipc/FileSystems";
+import {getVersion} from "../ipc/fileSystems";
 import './Settings.css';
 
 export default class Settings extends Component {
-
+  //todo figure out how get version
   // async componentWillMount() {
   //   const appVersion = await getVersion();
   //   console.log(appVersion)

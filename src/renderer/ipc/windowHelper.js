@@ -4,4 +4,3 @@ export const turnOffFullScreen  = async () => {
 export const toggleFullscreen  = async () => {
   window.electron.ipcRenderer.sendMessage('toggleFullscreen', 'toggleFullscreen')
 }
-

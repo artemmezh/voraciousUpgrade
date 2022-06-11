@@ -1,23 +1,16 @@
-import {getAppPath, getPath} from "../ipc/FileSystems";
-import {join} from "../ipc/FileSystems";
+import {getAppPath, getPath} from "../ipc/fileSystems";
+import {join} from "../ipc/path";
 
-export const getUserDataPath = () => {
-  const userData = getPath('userData');
-  console.log(userData);
-  return userData;
+export const getUserDataPath = async () => {
+  return await getPath('userData');
 };
 
 export const getResourcesPath = async () => {
   const appPath = await getAppPath();
-  console.log("appPath")
-  console.log(appPath)
-  const path = await join(appPath, 'resources');
-  console.log("path from getResourcesPath:");
-  console.log(path);
-  return path;
+  return await join(appPath, 'resources');
 };
 
-export const getBinariesPath = () => {
+export const getBinariesPath = async () => {
   let appPath = await getAppPath();
   if (appPath.endsWith('.asar')) { //todo испрвить
     appPath += '.unpacked';
