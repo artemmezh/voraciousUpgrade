@@ -2,7 +2,6 @@ import { hiraToKata, kataToHira, anyCharIsKana } from '../util/japanese';
 import DiffMatchPatch from 'diff-match-patch';
 import { create as createAnnoText } from './annotext';
 import { cpSlice } from '../util/string';
-// const kuromoji = window.kuromoji; // loaded by script tag in index.html, we do this to avoid lint warning
 import {builder} from '../kuromoji/kuromoji.js'
 const dmp = new DiffMatchPatch();
 

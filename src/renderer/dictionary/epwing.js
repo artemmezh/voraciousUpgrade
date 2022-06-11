@@ -1,10 +1,5 @@
 import { getBinariesPath, getUserDataPath } from '../util/appPaths';
 
-// const path = window.require('path');
-// const fs = window.require('fs-extra');
-// const { execFile } = window.require('child_process');
-// const { process } = window.require('electron').remote;
-
 export const importEpwing = async (epwingDir) => {
   const yomichanImportDir = join(getBinariesPath(), 'yomichan-import');
   let yomichanImport = join(yomichanImportDir, 'yomichan-import');

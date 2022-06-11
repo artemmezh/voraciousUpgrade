@@ -1,15 +1,15 @@
-import React, { PureComponent } from 'react';
-import Immutable, { Record } from 'immutable';
+import React, {PureComponent} from 'react';
+import Immutable, {Record} from 'immutable';
 
 import './AnnoText.css';
 
-import { iso6393To6391 } from '../util/languages';
+import {iso6393To6391} from '../util/languages';
 import Tooltip from './Tooltip';
 import CopyInterceptor from './CopyInterceptor';
 import SystemBrowserLink from './SystemBrowserLink';
 
-import { cpSlice } from '../util/string';
-import { getKindAtIndex, getKindInRange, customRender as annoTextCustomRender } from '../util/annotext';
+import {cpSlice} from '../util/string';
+import {getKindAtIndex, getKindInRange, customRender as annoTextCustomRender} from '../util/annotext';
 
 const CPRange = new Record({
   cpBegin: null,
@@ -50,7 +50,10 @@ export default class AnnoText extends PureComponent {
       window.clearTimeout(this.hoverTimeout);
     }
     this.hoverTimeout = window.setTimeout(
-      () => { this.setState({ hoverRange: null }); this.hoverTimeout = null; },
+      () => {
+        this.setState({hoverRange: null});
+        this.hoverTimeout = null;
+      },
       300
     );
   }
@@ -103,7 +106,7 @@ export default class AnnoText extends PureComponent {
         if (this.state.hoverRange) {
           this.setSelection(this.state.hoverRange.cpBegin, this.state.hoverRange.cpEnd);
         } else {
-          this.setSelection(cpIndex, cpIndex+1);
+          this.setSelection(cpIndex, cpIndex + 1);
         }
       }
       document.addEventListener('mouseup', this.handleMouseUp);
@@ -138,7 +141,7 @@ export default class AnnoText extends PureComponent {
       if (b < a) {
         [a, b] = [b, a];
       }
-      this.setSelection(a, b+1);
+      this.setSelection(a, b + 1);
     }
     this.clearHoverTimeout();
   };
@@ -156,7 +159,7 @@ export default class AnnoText extends PureComponent {
   };
 
   renderTooltip = () => {
-    const { annoText, searchDictionaries } = this.props;
+    const {annoText, searchDictionaries} = this.props;
 
     const tooltipRange = this.state.selectionRange || this.state.hoverRange;
 
@@ -200,7 +203,12 @@ export default class AnnoText extends PureComponent {
               })}
             </ul>
             {(hitWordAnnos.length > limitedHitWordAnnos.length) ? (
-              <div style={{fontSize: '0.5em', marginTop: 10, textAlign: 'center', fontStyle: 'italic'}}> and {hitWordAnnos.length - limitedHitWordAnnos.length} more...</div>
+              <div style={{
+                fontSize: '0.5em',
+                marginTop: 10,
+                textAlign: 'center',
+                fontStyle: 'italic'
+              }}> and {hitWordAnnos.length - limitedHitWordAnnos.length} more...</div>
             ) : null}
           </div>
         </Tooltip>
@@ -211,7 +219,7 @@ export default class AnnoText extends PureComponent {
   };
 
   render() {
-    const { annoText, language, showRuby } = this.props;
+    const {annoText, language, showRuby} = this.props;
 
     const annoTextChildren = annoTextCustomRender(
       annoText,
@@ -221,7 +229,11 @@ export default class AnnoText extends PureComponent {
         const wordStateClass = "word-state-" + wordState;
 
         if (a.kind === 'ruby') {
-          return showRuby ? [<ruby key={`ruby-${a.cpBegin}:${a.cpEnd}`} className={wordStateClass}>{inner}<rp>(</rp><rt>{a.data}</rt><rp>)</rp></ruby>] : inner;
+          return showRuby ? [<ruby key={`ruby-${a.cpBegin}:${a.cpEnd}`} className={wordStateClass}>{inner}
+            <rp>(</rp>
+            <rt>{a.data}</rt>
+            <rp>)</rp>
+          </ruby>] : inner;
         } else if (a.kind === 'highlight') {
           return [<span key={`highlight-${a.cpBegin}:${a.cpEnd}`} className='AnnoText-highlight'>{inner}</span>];
         } else {
@@ -230,7 +242,7 @@ export default class AnnoText extends PureComponent {
       },
       (c, i) => {
         if (c === '\n') {
-          return <br key={`char-${i}`} />;
+          return <br key={`char-${i}`}/>;
         } else {
           const classNames = ['AnnoText-textchar'];
           if ((this.state.selectionRange !== null) && (i >= this.state.selectionRange.cpBegin) && (i < this.state.selectionRange.cpEnd)) {
@@ -239,17 +251,32 @@ export default class AnnoText extends PureComponent {
             classNames.push('AnnoText-hover');
           }
 
-          return <span className={classNames.join(' ')} onMouseDown={this.handleCharMouseDown} onMouseEnter={this.handleCharMouseEnter} onMouseLeave={this.handleCharMouseLeave} data-index={i} key={`char-${i}`} ref={(el) => { this.charElem[i] = el; }}>{c}</span>;
+          return <span
+            className={classNames.join(' ')}
+            onMouseDown={this.handleCharMouseDown}
+            onMouseEnter={this.handleCharMouseEnter}
+            onMouseLeave={this.handleCharMouseLeave}
+            data-index={i}
+            key={`char-${i}`}
+            ref={(el) => {
+              this.charElem[i] = el;
+            }}>{c}
+          </span>;
         }
       }
     );
 
     return (
       <span className="AnnoText">
-        <span {... ((language === 'und' ? {} : {lang: iso6393To6391(language)}))}>{annoTextChildren}</span>
+        <span {...((language === 'und' ? {} : {lang: iso6393To6391(language)}))}>{annoTextChildren}</span>
         {this.renderTooltip()}
         {this.state.selectionRange ? (
-          <CopyInterceptor copyData={[{format: 'text/plain', data: cpSlice(annoText.text, this.state.selectionRange.cpBegin, this.state.selectionRange.cpEnd)}]}/>
+          <CopyInterceptor
+            copyData={[{
+            format: 'text/plain',
+            data: cpSlice(annoText.text, this.state.selectionRange.cpBegin, this.state.selectionRange.cpEnd)
+          }]}
+          />
         ) : null}
       </span>
     );

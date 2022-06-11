@@ -1,9 +1,5 @@
-// import path from 'path';
-
 import {getAppPath, getPath} from "../FileSystems";
 import {join} from "../FileSystems";
-// const { path } = window.require('electron').remote;
-// const app = window.electron.remote;
 
 export const getUserDataPath = () => {
   const userData = getPath('userData');

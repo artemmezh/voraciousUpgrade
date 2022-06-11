@@ -1,5 +1,3 @@
-// import path from 'path';
-
 import jschardet from 'jschardet';
 import iconv from 'iconv-lite';
 
@@ -7,12 +5,10 @@ import { parseSRT, parseVTT, parseASS } from '../util/subtitleParsing';
 import { ensureKuromojiLoaded, createAutoAnnotatedText } from '../util/analysis';
 import { detectIso6393 } from '../util/languages';
 import { createTimeRangeChunk, createTimeRangeChunkSet } from '../util/chunk';
-// import { extractAudio, extractFrameImage } from '../util/ffmpeg';
 import {extractAudio, extractFrameImage} from "../FfmpegHelper";
 import {readdir, join, extname, stat, exists, basename, isDirectory, readFile} from "../FileSystems";
 
 const LOCAL_PREFIX = 'local:';
-// const LOCAL_PREFIX = 'your-custom-protocol:';
 
 const SUPPORTED_VIDEO_EXTENSIONS = [
   '.mp4',
@@ -24,7 +20,6 @@ const EPISODE_PATTERN = /ep([0-9]+)/i;
 const SUBTITLE_LANG_EXTENSION_PATTERN = /(.*)\.([a-zA-Z]{2,3})\.(srt|vtt|ass)/i;
 const SUBTITLE_NOLANG_EXTENSION_PATTERN = /(.*)\.(srt|vtt|ass)/i;
 
-// const fs = window.require('fs-extra'); // use window to avoid webpack
 
 const listVideosRel = async (baseDir, relDir) => {
   const result = [];
@@ -224,7 +219,7 @@ const loadSubtitleTrackFromFile = async (filename) => {
   const rawData = await readFile(filename);
   const encodingGuess = jschardet.detect(rawData.toString('binary'));
   console.log('loadSubtitleTrackFromFile guessed encoding', encodingGuess);
-  const data = iconv.decode(rawData, encodingGuess.encoding);
+  const data = iconv.decode(rawData, 'utf-8'); //todo wrong detect encoding, need create selector for encoding
 
   let subs;
   if (filename.endsWith('.srt')) {
@@ -240,7 +235,6 @@ const loadSubtitleTrackFromFile = async (filename) => {
   // Autodetect language
   const combinedText = subs.map(s => s.lines).join();
   const language = detectIso6393(combinedText);
-
   // Create time-indexed subtitle track
   console.log("kuromoji->>>>>>>>")
   await ensureKuromojiLoaded(); // wait until kuromoji has loaded todo do loading of dictionary
