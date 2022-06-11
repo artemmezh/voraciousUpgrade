@@ -14,7 +14,7 @@ import {autoUpdater} from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from './menu';
 import {resolveHtmlPath} from './util';
-import initApplicationHandlers from "./applicationIpcHandlers";
+import initApplicationHandlers from "./ipcHandlers/applicationIpcHandlers";
 import registerFileProtocol from "./fileProtocol";
 
 

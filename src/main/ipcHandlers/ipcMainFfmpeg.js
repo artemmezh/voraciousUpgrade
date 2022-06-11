@@ -1,5 +1,5 @@
 import {ipcMain} from "electron";
-import {extractAudio, extractFrameImage} from "./ffmpeg";
+import {extractAudio, extractFrameImage} from "../ffmpeg";
 
 
 export default function ipcFfmpegHandlers() {

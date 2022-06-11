@@ -1,5 +1,5 @@
 import {app, ipcMain} from "electron";
-import {ElectronSqliteBackend} from "./ElectronSqliteBackend";
+import {ElectronSqliteBackend} from "../ElectronSqliteBackend";
 import path from "path";
 import {open} from 'sqlite'
 
