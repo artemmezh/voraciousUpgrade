@@ -17,17 +17,11 @@ import {resolveHtmlPath} from './util';
 import {ElectronSqliteBackend} from './ElectronSqliteBackend.js';
 import {open} from 'sqlite'
 import {extractAudio, extractFrameImage} from "./ffmpeg";
+import initApplicationHandlers from "./applicationIpcHandlers";
+
 
 const fs = require("fs-extra");
 const {protocol} = require('electron');
-
-function fileHandler(req, callback) {
-  let requestedPath = req.url
-
-  callback({
-    path: requestedPath
-  });
-}
 
 export default class AppUpdater {
   constructor() {
@@ -53,24 +47,6 @@ ipcMain.on('ipc-example', async (event, arg) => {
   console.log(msgTemplate(arg));
   event.reply('ipc-example', msgTemplate('pong'));
 });
-
-//===============
-// ffmpeg
-//==============
-
-ipcMain.handle('extractAudio', async (event, args) => {
-  const vidfn = args[0];
-  const startTime = args[1];
-  const endTime = args[2];
-  return extractAudio(vidfn, startTime, endTime);
-})
-
-ipcMain.handle('extractFrameImage', async (event, args) => {
-  const vidfn = args[0];
-  const time = args[1];
-  return extractFrameImage(vidfn, time);
-})
-
 
 // TODO dont worry it will be refactored
 //===============
@@ -345,6 +321,7 @@ app
   .whenReady()
   .then(() => {
     addIpcHandlers();
+    initApplicationHandlers();
     createWindow();
     protocol.registerFileProtocol("local-video", (req, callback) => {
       const url = req.url.replace("local-video://", "");
