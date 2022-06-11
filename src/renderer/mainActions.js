@@ -1,7 +1,7 @@
 import { List, Record, Map as IMap, OrderedMap, Set as ISet } from 'immutable';
 import { getCollectionIndex, loadCollectionSubtitleTrack } from './library';
 import { loadDictionaries, searchIndex } from './dictionary';
-import {Storage} from "./util/Storage";
+import {Storage} from "./ipc/Storage";
 
 const jstr = JSON.stringify; // alias
 const jpar = JSON.parse; // alias
