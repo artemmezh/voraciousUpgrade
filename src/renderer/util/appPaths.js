@@ -1,5 +1,5 @@
-import {getAppPath, getPath} from "../ipc/fileSystems";
 import {join} from "../ipc/path";
+import {getAppPath, getPath} from "../ipc/app"
 
 export const getUserDataPath = async () => {
   return await getPath('userData');
@@ -12,7 +12,7 @@ export const getResourcesPath = async () => {
 
 export const getBinariesPath = async () => {
   let appPath = await getAppPath();
-  if (appPath.endsWith('.asar')) { //todo испрвить
+  if (appPath.endsWith('.asar')) {
     appPath += '.unpacked';
   }
   return await join(appPath, 'resources', 'bin', process.platform);
