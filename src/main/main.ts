@@ -9,14 +9,14 @@
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
 import path from 'path';
-import {app, BrowserWindow, shell, ipcMain, dialog} from 'electron';
+import {app, BrowserWindow, shell} from 'electron';
 import {autoUpdater} from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from './menu';
 import {resolveHtmlPath} from './util';
 import initApplicationHandlers from "./applicationIpcHandlers";
+import registerFileProtocol from "./fileProtocol";
 
-const {protocol} = require('electron');
 
 export default class AppUpdater {
   constructor() {
@@ -25,8 +25,6 @@ export default class AppUpdater {
     autoUpdater.checkForUpdatesAndNotify();
   }
 }
-
-let mainWindow: BrowserWindow | null = null;
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
@@ -53,6 +51,8 @@ const installExtensions = async () => {
     .catch(console.log);
 };
 
+let mainWindow: BrowserWindow | null = null;
+
 const createWindow = async () => {
   if (isDebug) {
     await installExtensions();
@@ -72,7 +72,6 @@ const createWindow = async () => {
     height: 728,
     icon: getAssetPath('icon.png'),
     webPreferences: {
-      // webSecurity: false,
       preload: app.isPackaged
         ? path.join(__dirname, 'preload.js')
         : path.join(__dirname, '../../.erb/dll/preload.js'),
@@ -110,10 +109,6 @@ const createWindow = async () => {
   new AppUpdater();
 };
 
-/**
- * Add event listeners...
- */
-
 app.on('window-all-closed', () => {
   // Respect the OSX convention of having the application in memory even
   // after all windows have been closed
@@ -127,16 +122,7 @@ app
   .then(() => {
     initApplicationHandlers();
     createWindow();
-    protocol.registerFileProtocol("local-video", (req, callback) => {
-      const url = req.url.replace("local-video://", "");
-      const decodedUrl = decodeURI(url); // in case URL contains spaces
-      try {
-        return callback(decodedUrl);
-      } catch (err) {
-        log.error('Invalid video file selected:', err);
-        return callback(404);
-      }
-    });
+    registerFileProtocol();
     app.on('activate', () => {
       // On macOS it's common to re-create a window in the app when the
       // dock icon is clicked and there are no other windows open.
