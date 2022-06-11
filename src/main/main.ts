@@ -28,12 +28,6 @@ export default class AppUpdater {
 
 let mainWindow: BrowserWindow | null = null;
 
-ipcMain.on('ipc-example', async (event, arg) => {
-  const msgTemplate = (pingPong: string) => `IPC test: ${pingPong}`;
-  console.log(msgTemplate(arg));
-  event.reply('ipc-example', msgTemplate('pong'));
-});
-
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
   sourceMapSupport.install();
@@ -58,51 +52,6 @@ const installExtensions = async () => {
     )
     .catch(console.log);
 };
-
-function addIpcHandlers() {
-  ipcMain.on('choose-video-file', () => {
-    dialog.showOpenDialog({
-      title: 'Choose a video file',
-      buttonLabel: 'Choose',
-      filters: [{name: 'Videos', extensions: ['mp4', 'webm']}],
-      properties: ['openFile'],
-    }, files => {
-      if (files && files.length) {
-        const fn = files[0];
-        mainWindow.send('chose-video-file', fn)
-      }
-    });
-  });
-
-  ipcMain.on('choose-directory', (event, prompt) => {
-    dialog.showOpenDialog({
-      title: prompt,
-      buttonLabel: 'Choose',
-      properties: ['openDirectory'],
-    }).then(files => {
-      const filePaths = files.filePaths
-      if (filePaths && filePaths.length) {
-        const dir = filePaths[0];
-        const basename = path.basename(dir);
-        mainWindow.send('chose-directory', basename, dir)
-      }
-    });
-  });
-
-  ipcMain.on('open-devtools', () => {
-    mainWindow.webContents.openDevTools();
-  });
-
-  ipcMain.on('turnOffFullScreen', () => {
-    if (mainWindow.isFullScreen()) {
-      mainWindow.setFullScreen(false);
-    }
-  });
-
-  ipcMain.on('toggleFullscreen', () => {
-    mainWindow.setFullScreen(!mainWindow.isFullScreen());
-  });
-}
 
 const createWindow = async () => {
   if (isDebug) {
@@ -176,7 +125,6 @@ app.on('window-all-closed', () => {
 app
   .whenReady()
   .then(() => {
-    addIpcHandlers();
     initApplicationHandlers();
     createWindow();
     protocol.registerFileProtocol("local-video", (req, callback) => {

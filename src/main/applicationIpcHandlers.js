@@ -3,6 +3,7 @@ import ipcDatabaseHandlers from "./ipcDatabase";
 import ipcFileSystemHandlers from "./ipcFileSystem"
 import ipcPathHandlers from "./ipcPath";
 import ipcAppHandlers from "./ipcApp";
+import ipcDialogHandlers from "./ipcDialog";
 
 export default function initApplicationHandlers() {
   ipcFfmpegHandlers();
@@ -10,4 +11,5 @@ export default function initApplicationHandlers() {
   ipcFileSystemHandlers();
   ipcPathHandlers();
   ipcAppHandlers();
+  ipcDialogHandlers();
 }
