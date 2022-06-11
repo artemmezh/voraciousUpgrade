@@ -129,7 +129,7 @@ const configuration: webpack.Configuration = {
     new CopyPlugin({
       patterns: [
         {
-          from: '/Users/artemme/IdeaProjects/artemmezh/voraciousUpgrade/public/kuromoji/dict/',
+          from: webpackPaths.publicFolderPath + '/kuromoji/dict/',
           to: webpackPaths.distRendererPath + '/kuromoji/dict/',
           toType: 'dir'
         }

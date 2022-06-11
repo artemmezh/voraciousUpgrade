@@ -18,10 +18,9 @@ const distPath = path.join(appPath, 'dist');
 const distMainPath = path.join(distPath, 'main');
 const distRendererPath = path.join(distPath, 'renderer');
 
+const publicFolderPath = path.join(distPath, 'public');
+
 const buildPath = path.join(releasePath, 'build');
-// const asarPath = path.join(releasePath, 'build', 'mac', 'ElectronReact.app');
-const asarPath = path.join(releasePath, 'build', 'mac', 'ElectronReact.app', 'Contents');
-// const asarPath = path.join(releasePath, 'build', 'mac', 'ElectronReact.app', 'Contents', 'Resources', 'app.asar.unpacked');
 const customeResources = path.join(rootPath, 'resources');
 
 export default {
@@ -39,6 +38,6 @@ export default {
   distMainPath,
   distRendererPath,
   buildPath,
-  asarPath,
-  customeResources
+  customeResources,
+  publicFolderPath
 };

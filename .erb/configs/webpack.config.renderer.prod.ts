@@ -100,7 +100,15 @@ const configuration: webpack.Configuration = {
       NODE_ENV: 'production',
       DEBUG_PROD: false,
     }),
-
+    new CopyPlugin({
+      patterns: [
+        {
+          from: webpackPaths.publicFolderPath + '/kuromoji/dict/',
+          to: webpackPaths.distPath + '/public/kuromoji/dict/',
+          toType: 'dir'
+        }
+      ],
+    }),
     new MiniCssExtractPlugin({
       filename: 'style.css',
     }),
@@ -111,7 +119,7 @@ const configuration: webpack.Configuration = {
     new CopyPlugin({
       patterns: [
         {
-          from: '/Users/artemme/IdeaProjects/artemmezh/voraciousUpgrade/public/kuromoji/dict/',
+          from: webpackPaths.publicFolderPath + '/kuromoji/dict/',
           to: webpackPaths.distRendererPath + '/kuromoji/dict/',
           toType: 'dir'
         }
