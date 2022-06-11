@@ -118,12 +118,9 @@ class VideoWrapper extends Component {
       play_icon = "▶";
     }
 
-    var re = /local/gi;
-    var newstr = videoURL.replace(re, 'local-video');
-
     return (
       <div className="video_wrapper">
-        <video src={newstr}
+        <video src={videoURL}
                onTimeUpdate={e => {
                  onTimeUpdate(e.target.currentTime);
                }}

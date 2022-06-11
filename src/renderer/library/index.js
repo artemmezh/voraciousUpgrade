@@ -81,7 +81,6 @@ const listVideosRel = async (baseDir, relDir) => {
       id: await join(relDir, vfn),
       name: await basename(vfn, await extname(vfn)),
       url: 'local://' + await join(baseDir, relDir, vfn), // this prefix works with our custom file protocol for Electron
-      // url: 'your-custom-protocol://' + await join(baseDir, relDir, vfn), // this prefix works with our custom file protocol for Electron
       subtitleTrackIds,
     });
   }
