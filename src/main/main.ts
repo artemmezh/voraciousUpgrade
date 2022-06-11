@@ -34,44 +34,6 @@ ipcMain.on('ipc-example', async (event, arg) => {
   event.reply('ipc-example', msgTemplate('pong'));
 });
 
-// TODO dont worry it will be refactored
-
-//===============
-// path
-//==============
-
-ipcMain.handle('extname', async (event, args) => {
-  return path.extname(args[0]);
-})
-
-ipcMain.handle('join', async (event, args) => {
-  return path.join(...args);
-})
-
-ipcMain.handle('parse', async (event, args) => {
-  return path.parse(args[0]);
-})
-
-ipcMain.handle('basename', async (event, args) => {
-  return path.basename(args[0], args[1]);
-})
-
-//===============
-// app
-//==============
-
-ipcMain.handle('getAppPath', async (event, args) => {
-  return app.getAppPath();
-})
-
-ipcMain.handle('getPath', async (event, args) => {
-  return app.getPath(args[0]);
-})
-
-ipcMain.handle('getVersion', async (event, args) => {
-  return app.getVersion();
-})
-
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
   sourceMapSupport.install();
