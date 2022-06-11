@@ -9,7 +9,7 @@ import AnnoText from './AnnoText.js';
 import PlayerExportPanel from './PlayerExportPanel';
 
 import {getChunkAtTime, getPrevChunkAtTime, getNextChunkAtTime} from '../util/chunk';
-import {toggleFullscreen, turnOffFullScreen} from "../windowHelper";
+import {toggleFullscreen, turnOffFullScreen} from "../util/windowHelper";
 
 // const { remote } = window.require('electron');
 

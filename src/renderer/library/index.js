@@ -5,8 +5,8 @@ import { parseSRT, parseVTT, parseASS } from '../util/subtitleParsing';
 import { ensureKuromojiLoaded, createAutoAnnotatedText } from '../util/analysis';
 import { detectIso6393 } from '../util/languages';
 import { createTimeRangeChunk, createTimeRangeChunkSet } from '../util/chunk';
-import {extractAudio, extractFrameImage} from "../FfmpegHelper";
-import {readdir, join, extname, stat, exists, basename, isDirectory, readFile} from "../FileSystems";
+import {extractAudio, extractFrameImage} from "../util/FfmpegHelper";
+import {readdir, join, extname, stat, exists, basename, isDirectory, readFile} from "../util/FileSystems";
 
 const LOCAL_PREFIX = 'local:';
 

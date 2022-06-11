@@ -21,8 +21,7 @@ export const isDirectory = async (...args) => {
 
 //path
 export const join = async (...args) => {
-  const r = window.electron.ipcRenderer.invoke('join', args)
-  return r;
+  return window.electron.ipcRenderer.invoke('join', args)
 }
 
 export const stat = async (...args) => {

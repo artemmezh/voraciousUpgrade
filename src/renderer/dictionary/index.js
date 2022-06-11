@@ -3,7 +3,7 @@
 import { getResourcesPath, getUserDataPath } from '../util/appPaths';
 import { loadYomichanZip, indexYomichanEntries } from './yomichan';
 export { importEpwing } from './epwing';
-import {exists, readdir, extname, join} from "../FileSystems";
+import {exists, readdir, extname, join} from "../util/FileSystems";
 import {read} from "fs";
 //const fs = window.require('fs-extra'); // use window to avoid webpack
 

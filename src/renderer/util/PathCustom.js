@@ -1,7 +1,6 @@
 class PathCustom {
   async join(...args) {
-    const r = window.electron.ipcRenderer.invoke('join', args)
-    return r;
+    return  window.electron.ipcRenderer.invoke('join', args)
   }
 
   async stat(...args){

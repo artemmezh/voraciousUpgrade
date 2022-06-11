@@ -1,5 +1,5 @@
-import {getAppPath, getPath} from "../FileSystems";
-import {join} from "../FileSystems";
+import {getAppPath, getPath} from "./FileSystems";
+import {join} from "./FileSystems";
 
 export const getUserDataPath = () => {
   const userData = getPath('userData');

@@ -6,7 +6,7 @@ import SettingsSubOrder from './SettingsSubOrder';
 import SettingsSubIgnores from './SettingsSubIgnores';
 import SettingsAnki from './SettingsAnki';
 import SystemBrowserLink from './SystemBrowserLink.js';
-import {getVersion} from "../FileSystems";
+import {getVersion} from "../util/FileSystems";
 import './Settings.css';
 
 export default class Settings extends Component {
