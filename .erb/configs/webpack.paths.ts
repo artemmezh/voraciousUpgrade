@@ -18,7 +18,7 @@ const distPath = path.join(appPath, 'dist');
 const distMainPath = path.join(distPath, 'main');
 const distRendererPath = path.join(distPath, 'renderer');
 
-const publicFolderPath = path.join(distPath, 'public');
+const publicFolderPath = path.join(rootPath, 'public');
 
 const buildPath = path.join(releasePath, 'build');
 const customeResources = path.join(rootPath, 'resources');

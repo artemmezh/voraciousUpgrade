@@ -5,7 +5,6 @@
 import webpack, {web} from 'webpack';
 import webpackPaths from './webpack.paths';
 import { dependencies as externals } from '../../release/app/package.json';
-const CopyPlugin = require("copy-webpack-plugin");
 
 const configuration: webpack.Configuration = {
   externals: [...Object.keys(externals || {})],

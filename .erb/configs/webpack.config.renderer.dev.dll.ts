@@ -51,15 +51,7 @@ const configuration: webpack.Configuration = {
      * NODE_ENV should be production so that modules do not perform certain
      * development checks
      */
-    new CopyPlugin({
-      patterns: [
-        {
-          from: webpackPaths.publicFolderPath + '/kuromoji/dict/',
-          to: webpackPaths.distRendererPath + '/kuromoji/dict/',
-          toType: 'dir'
-        }
-      ],
-    }),
+
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'development',
     }),
