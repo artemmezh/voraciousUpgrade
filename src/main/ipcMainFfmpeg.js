@@ -1,6 +1,7 @@
 import {ipcMain} from "electron";
 import {extractAudio, extractFrameImage} from "./ffmpeg";
 
+
 export default function ipcFfmpegHandlers() {
   ipcMain.handle('extractAudio', async (event, args) => {
     const vidfn = args[0];

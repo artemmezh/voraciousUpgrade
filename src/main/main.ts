@@ -14,13 +14,8 @@ import {autoUpdater} from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from './menu';
 import {resolveHtmlPath} from './util';
-import {ElectronSqliteBackend} from './ElectronSqliteBackend.js';
-import {open} from 'sqlite'
-import {extractAudio, extractFrameImage} from "./ffmpeg";
 import initApplicationHandlers from "./applicationIpcHandlers";
 
-
-const fs = require("fs-extra");
 const {protocol} = require('electron');
 
 export default class AppUpdater {
@@ -33,15 +28,6 @@ export default class AppUpdater {
 
 let mainWindow: BrowserWindow | null = null;
 
-export const getUserDataPath = () => {
-  return app.getPath('userData');
-};
-const userDataPath = getUserDataPath();
-const dbFilename = path.join(userDataPath, 'voracious.db');
-const sqlite3 = require("sqlite3").verbose();
-const electronSqliteBackend = new ElectronSqliteBackend();
-
-
 ipcMain.on('ipc-example', async (event, arg) => {
   const msgTemplate = (pingPong: string) => `IPC test: ${pingPong}`;
   console.log(msgTemplate(arg));
@@ -49,97 +35,6 @@ ipcMain.on('ipc-example', async (event, arg) => {
 });
 
 // TODO dont worry it will be refactored
-//===============
-// Database
-//==============
-ipcMain.on('sqlite', (event, arg) => {
-  console.log(arg);
-  // console.log(db);
-  event.reply('asynchronous-reply', ["qwe", "qwe"]);
-});
-
-ipcMain.handle('initDb', async (event, args) => {
-  const dbInitialized = await open({
-    filename: dbFilename,
-    driver: sqlite3.Database
-  })
-  electronSqliteBackend.initialize(dbInitialized)
-  return;
-})
-
-//sql
-
-ipcMain.handle('sqliteGetItemMaybe', async (event, args) => {
-  const dbInitialized = await open({
-    filename: dbFilename,
-    driver: sqlite3.Database
-  })
-  return electronSqliteBackend.getItemMaybe(args[0], dbInitialized)
-})
-
-ipcMain.handle('sqliteSetItem', async (event, args) => {
-  const dbInitialized = await open({
-    filename: dbFilename,
-    driver: sqlite3.Database
-  })
-  return electronSqliteBackend.setItem(args[0], args[1], dbInitialized)
-})
-
-ipcMain.handle('setWord', async (event, args) => {
-  const dbInitialized = await open({
-    filename: dbFilename,
-    driver: sqlite3.Database
-  })
-  return electronSqliteBackend.setWord(args[0], args[1], dbInitialized)
-})
-
-ipcMain.handle('getAllWords', async (event, args) => {
-  const dbInitialized = await open({
-    filename: dbFilename,
-    driver: sqlite3.Database
-  })
-  return electronSqliteBackend.getAllWords(dbInitialized)
-})
-
-ipcMain.handle('setItem', async (event, args) => {
-  const dbInitialized = await open({
-    filename: dbFilename,
-    driver: sqlite3.Database
-  })
-  return electronSqliteBackend.setItem(args[0], args[1], dbInitialized)
-})
-
-//===============
-// fs
-//==============
-
-ipcMain.handle('readdir', async (event, args) => {
-  return fs.readdir(args[0]);
-})
-
-ipcMain.handle('exists', async (event, args) => {
-  return fs.exists(args[0]);
-})
-
-ipcMain.handle('readFile', async (event, args) => {
-  return fs.readFile(args[0]);
-})
-
-ipcMain.handle('ensureDir', async (event, args) => {
-  return fs.ensureDir(args[0]);
-})
-
-ipcMain.handle('stat', async (event, args) => {
-  return fs.stat(args[0]);
-})
-
-ipcMain.handle('endsWith', async (event, args) => {
-  return fs.endsWith(args[0]);
-})
-
-ipcMain.handle('isDirectory', async (event, args) => {
-  return fs.stat(args[0]).isDirectory
-})
 
 //===============
 // path
@@ -246,7 +141,6 @@ function addIpcHandlers() {
     mainWindow.setFullScreen(!mainWindow.isFullScreen());
   });
 }
-
 
 const createWindow = async () => {
   if (isDebug) {
