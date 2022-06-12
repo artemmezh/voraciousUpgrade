@@ -8,15 +8,13 @@ const fs = require('fs-extra');
 const getBinaryFilename = () => {
   const ffmpegDir = path.join(getBinariesPath(), 'ffmpeg');
   let result = path.join(ffmpegDir, 'ffmpeg');
-  console.log("process.platform")
-  console.log(process.platform)
   if (process.platform === 'win32') {
     result += '.exe';
   }
   return result;
 };
 
-export const getBinariesPath = () => {
+const getBinariesPath = () => {
   let appPath = app.getAppPath();
   if (appPath.endsWith('.asar')) {
     appPath += '.unpacked';

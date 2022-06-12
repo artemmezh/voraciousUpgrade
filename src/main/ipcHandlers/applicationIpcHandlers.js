@@ -5,11 +5,11 @@ import ipcPathHandlers from "./ipcPath";
 import ipcAppHandlers from "./ipcApp";
 import ipcDialogHandlers from "./ipcDialog";
 
-export default function initApplicationHandlers() {
+export default function initApplicationHandlers(mainWindow) {
   ipcFfmpegHandlers();
   ipcDatabaseHandlers();
   ipcFileSystemHandlers();
   ipcPathHandlers();
   ipcAppHandlers();
-  ipcDialogHandlers();
+  ipcDialogHandlers(mainWindow);
 }

@@ -5,7 +5,7 @@ export type Channels =
   'extname' | 'join' | 'readFile' | 'parse' | 'ensureDir' | 'stat' | 'basename' | 'getAppPath' |
   'getPath' | 'endsWith' | 'getVersion' | 'getWordMaybe' | 'setWord' | 'getAllWords' | 'setItem'|
   'choose-directory' | 'chose-directory' | 'isDirectory' | 'turnOffFullScreen' | 'toggleFullscreen' |
-  'extractAudio' | 'extractFrameImage' | 'initDb';
+  'extractAudio' | 'extractFrameImage' | 'initDb' | 'processPlatform';
 export type sqlite3 = 'sqlite3'
 
 contextBridge.exposeInMainWorld('electron', {

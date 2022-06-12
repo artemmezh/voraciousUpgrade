@@ -1,13 +1,16 @@
 import { getBinariesPath, getUserDataPath } from '../util/appPaths';
+import {getProcessPlatform} from "../ipc/process";
 
 export const importEpwing = async (epwingDir) => {
   const binariesPath = await getBinariesPath();
   const yomichanImportDir = join(binariesPath, 'yomichan-import');
   let yomichanImport = join(yomichanImportDir, 'yomichan-import');
-  //todo create supplier for plaform
-  // if (process.platform === 'win32') {
-  //   yomichanImport += '.exe';
-  // }
+  const platform = await getProcessPlatform();
+  console.log("platform.toString()------>>>>>>")
+  console.log(platform.toString())
+  if (platform.toString() === 'win32') {
+    yomichanImport += '.exe';
+  }
 
   // Make destination filename based on src, that doesn't conflict
   // TODO: ensure that epwingDir is a directory?

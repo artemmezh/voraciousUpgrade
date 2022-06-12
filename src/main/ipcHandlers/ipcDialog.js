@@ -2,7 +2,7 @@ import {dialog, ipcMain} from "electron";
 import path from "path";
 
 
-export default function ipcDialogHandlers() {
+export default function ipcDialogHandlers(mainWindow) {
   ipcMain.on('choose-video-file', () => {
     dialog.showOpenDialog({
       title: 'Choose a video file',
