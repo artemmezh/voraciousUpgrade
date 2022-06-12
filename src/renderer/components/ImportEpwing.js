@@ -58,6 +58,7 @@ export default class ImportEpwing extends Component {
         epwingDirectory: undefined,
       });
     } catch (e) {
+      console.log(e)
       console.log(e.message);
       let statusText = 'Something went wrong';
       if (e.message.includes('unrecognized dictionary format')) {

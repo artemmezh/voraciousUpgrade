@@ -9,14 +9,13 @@
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
 import path from 'path';
-import {app, BrowserWindow, shell} from 'electron';
+import {app, BrowserWindow, dialog, ipcMain, shell} from 'electron';
 import {autoUpdater} from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from './menu';
 import {resolveHtmlPath} from './util';
 import initApplicationHandlers from "./ipcHandlers/applicationIpcHandlers";
 import registerFileProtocol from "./fileProtocol";
-
 
 export default class AppUpdater {
   constructor() {
@@ -109,6 +108,52 @@ const createWindow = async () => {
   new AppUpdater();
 };
 
+
+function ipcDialogHandlers() {
+  ipcMain.on('choose-video-file', () => {
+    dialog.showOpenDialog({
+      title: 'Choose a video file',
+      buttonLabel: 'Choose',
+      filters: [{name: 'Videos', extensions: ['mp4', 'webm']}],
+      properties: ['openFile'],
+    }, files => {
+      if (files && files.length) {
+        const fn = files[0];
+        mainWindow.send('chose-video-file', fn)
+      }
+    });
+  });
+
+  ipcMain.on('choose-directory', (event, prompt) => {
+    dialog.showOpenDialog({
+      title: prompt,
+      buttonLabel: 'Choose',
+      properties: ['openDirectory'],
+    }).then(files => {
+      const filePaths = files.filePaths
+      if (filePaths && filePaths.length) {
+        const dir = filePaths[0];
+        const basename = path.basename(dir);
+        mainWindow.send('chose-directory', basename, dir)
+      }
+    });
+  });
+
+  ipcMain.on('open-devtools', () => {
+    mainWindow.webContents.openDevTools();
+  });
+
+  ipcMain.on('turnOffFullScreen', () => {
+    if (mainWindow.isFullScreen()) {
+      mainWindow.setFullScreen(false);
+    }
+  });
+
+  ipcMain.on('toggleFullscreen', () => {
+    mainWindow.setFullScreen(!mainWindow.isFullScreen());
+  });
+}
+
 app.on('window-all-closed', () => {
   // Respect the OSX convention of having the application in memory even
   // after all windows have been closed
@@ -122,6 +167,7 @@ app
   .then(() => {
     createWindow();
     initApplicationHandlers(mainWindow);
+    ipcDialogHandlers()
     registerFileProtocol();
     app.on('activate', () => {
       // On macOS it's common to re-create a window in the app when the

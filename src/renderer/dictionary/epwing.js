@@ -1,50 +1,41 @@
 import { getBinariesPath, getUserDataPath } from '../util/appPaths';
 import {getProcessPlatform} from "../ipc/process";
+import {join, getParsedName} from "../ipc/path";
+import {ensureDir, exists} from "../ipc/fileSystems";
+import {execFile} from "../ipc/childProcess";
 
 export const importEpwing = async (epwingDir) => {
   const binariesPath = await getBinariesPath();
-  const yomichanImportDir = join(binariesPath, 'yomichan-import');
-  let yomichanImport = join(yomichanImportDir, 'yomichan-import');
+  const yomichanImportDir = await join(binariesPath, 'yomichan-import');
+  let yomichanImport = await join(yomichanImportDir, 'yomichan-import');
   const platform = await getProcessPlatform();
-  console.log("platform.toString()------>>>>>>")
-  console.log(platform.toString())
+
   if (platform.toString() === 'win32') {
     yomichanImport += '.exe';
   }
 
   // Make destination filename based on src, that doesn't conflict
   // TODO: ensure that epwingDir is a directory?
-  const srcBase =  window.electron.ipcRenderer.invoke('parse', [epwingDir]).name;
+  const srcBase =  await getParsedName(epwingDir);
   const userDataPath = await getUserDataPath();
-  const destDir = join(userDataPath, 'dictionaries');
-  await window.electron.ipcRenderer.invoke('ensureDir', [destDir]);
+  const destDir = await join(userDataPath, 'dictionaries');
+  await ensureDir('ensureDir', [destDir]);
 
   let idx = 0;
   let destFn;
   while (true) {
-    destFn = join(destDir, srcBase);
+    destFn = await join(destDir, srcBase);
     if (idx) {
       destFn += idx.toString();
     }
     destFn += '.zip';
 
-    if (!(await window.electron.ipcRenderer.invoke('exists', [destFn]))) {
+    if (!(await exists(destFn))) {
       break;
     }
     idx++;
   }
 
   console.log('importEpwing', yomichanImport, epwingDir, destFn);
-  return new Promise((resolve, reject) => {
-    execFile(yomichanImport, [epwingDir, destFn], {cwd: yomichanImportDir, windowsHide: true}, (error, stdout, stderr) => {
-      if (error) {
-        reject(error);
-      }
-      resolve(destFn);
-    });
-  });
+  return execFile(yomichanImport, [epwingDir, destFn], {cwd: yomichanImportDir, windowsHide: true});
 };
-
-const join = async (...args) => {
-  await window.electron.ipcRenderer.invoke('join', args)
-}

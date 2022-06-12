@@ -4,6 +4,8 @@ import ipcFileSystemHandlers from "./ipcFileSystem"
 import ipcPathHandlers from "./ipcPath";
 import ipcAppHandlers from "./ipcApp";
 import ipcDialogHandlers from "./ipcDialog";
+import ipcProcessHandlers from "./ipcProcess";
+import ipcChildProcessHandlers from "./ipcChildProcess";
 
 export default function initApplicationHandlers(mainWindow) {
   ipcFfmpegHandlers();
@@ -11,5 +13,7 @@ export default function initApplicationHandlers(mainWindow) {
   ipcFileSystemHandlers();
   ipcPathHandlers();
   ipcAppHandlers();
-  ipcDialogHandlers(mainWindow);
+  ipcProcessHandlers();
+  ipcChildProcessHandlers();
+  // ipcDialogHandlers(mainWindow);
 }

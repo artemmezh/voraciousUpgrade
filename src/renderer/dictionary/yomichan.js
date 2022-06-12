@@ -30,7 +30,7 @@ export const loadYomichanZip = async (fn, reportProgress) => {
     reportProgress('Opening ' + fn + '...');
   }
   console.time('load yomichan zip ' + fn);
-  const data = await window.electron.ipcRenderer.invoke('readFile', [fn]);
+  const data = await window.electron.ipcRenderer.invoke('readFile', [fn]); //todo readFile does not work here in render context
   const zip = await JSZip.loadAsync(data);
   const keys = Object.keys(zip.files);
   keys.sort();

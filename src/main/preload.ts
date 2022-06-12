@@ -2,10 +2,10 @@ import {contextBridge, ipcRenderer, IpcRendererEvent, shell, app} from 'electron
 
 export type Channels =
   'sqlite' | 'sqliteGetItemMaybe' | 'sqliteSetItem' | 'readdir' | 'exists' |
-  'extname' | 'join' | 'readFile' | 'parse' | 'ensureDir' | 'stat' | 'basename' | 'getAppPath' |
+  'extname' | 'join' | 'readFile' | 'getParsedName' | 'ensureDir' | 'stat' | 'basename' | 'getAppPath' |
   'getPath' | 'endsWith' | 'getVersion' | 'getWordMaybe' | 'setWord' | 'getAllWords' | 'setItem'|
   'choose-directory' | 'chose-directory' | 'isDirectory' | 'turnOffFullScreen' | 'toggleFullscreen' |
-  'extractAudio' | 'extractFrameImage' | 'initDb' | 'processPlatform';
+  'extractAudio' | 'extractFrameImage' | 'initDb' | 'processPlatform' | 'unlink';
 export type sqlite3 = 'sqlite3'
 
 contextBridge.exposeInMainWorld('electron', {

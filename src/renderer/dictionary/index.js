@@ -1,7 +1,9 @@
 import { getResourcesPath, getUserDataPath } from '../util/appPaths';
 import { loadYomichanZip, indexYomichanEntries } from './yomichan';
 export { importEpwing } from './epwing';
-import {exists, readdir, extname, join} from "../ipc/fileSystems";
+import {exists, readdir} from "../ipc/fileSystems";
+import {extname, join} from "../ipc/path";
+
 
 const loadAndIndexYomichanZip = async (zipfn, builtin, reportProgress) => {
   const {name, termEntries} = await loadYomichanZip(zipfn, reportProgress);
@@ -23,7 +25,8 @@ const scanDirForYomichanZips = async (dir, builtin, reportProgress) => {
   for (const dirent of dirents) {
     if (await extname(dirent) === '.zip') {
       // Assume any zips are Yomichan dicts
-      const info = await loadAndIndexYomichanZip(join(dir, dirent), builtin, reportProgress);
+      const direntPath = await join(dir, dirent);
+      const info = await loadAndIndexYomichanZip(direntPath, builtin, reportProgress);
       result.push(info);
     }
   }
@@ -39,9 +42,10 @@ export const loadDictionaries = async (reportProgress) => {
 
   // Scan for imported dictionaries
   console.log("start scan dictionaries")
-  const importedPath = await join(getUserDataPath(), 'dictionaries');
+  const userDataPath = await getUserDataPath();
+  const importedPath = await join(userDataPath, 'dictionaries');
   if (await exists(importedPath)) {
-    result.push(...await scanDirForYomichanZips(join(getUserDataPath(), 'dictionaries'), false, reportProgress));
+    result.push(...await scanDirForYomichanZips(await join(userDataPath, 'dictionaries'), false, reportProgress));
   }
   return result;
 };

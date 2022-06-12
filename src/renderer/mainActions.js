@@ -2,6 +2,7 @@ import { List, Record, Map as IMap, OrderedMap, Set as ISet } from 'immutable';
 import { getCollectionIndex, loadCollectionSubtitleTrack } from './library';
 import { loadDictionaries, searchIndex } from './dictionary';
 import {Storage} from "./ipc/Storage";
+import {unlink} from "./ipc/fileSystems";
 
 const jstr = JSON.stringify; // alias
 const jpar = JSON.parse; // alias
@@ -417,7 +418,7 @@ export default class MainActions {
       throw new Error('Not allowed to delete built-in dictionary');
     }
 
-    await fs.unlink(dict.filename);
+    await unlink(dict.filename);
 
     this.state.set(this.state.get().deleteIn(['dictionaries', name]));
   };

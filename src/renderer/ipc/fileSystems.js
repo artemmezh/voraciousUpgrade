@@ -21,3 +21,11 @@ export const isDirectory = async (...args) => {
 export const basename = async (...args) => {
   return window.electron.ipcRenderer.invoke('basename', args)
 }
+
+export const ensureDir = async (...args) => {
+  return window.electron.ipcRenderer.invoke('ensureDir', args)
+}
+
+export const unlink = async (...args) => {
+  return window.electron.ipcRenderer.invoke('unlink', args)
+}

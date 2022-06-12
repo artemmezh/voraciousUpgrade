@@ -1,5 +1,6 @@
 import {join} from "../ipc/path";
 import {getAppPath, getPath} from "../ipc/app"
+import {getProcessPlatform} from "../ipc/process";
 
 export const getUserDataPath = async () => {
   return await getPath('userData');
@@ -15,5 +16,6 @@ export const getBinariesPath = async () => {
   if (appPath.endsWith('.asar')) {
     appPath += '.unpacked';
   }
-  return await join(appPath, 'resources', 'bin', process.platform);
+  const processPlatform = await getProcessPlatform();
+  return await join(appPath, 'resources', 'bin', processPlatform);
 };

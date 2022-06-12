@@ -11,8 +11,8 @@ export default function ipcPathHandlers() {
     return path.join(...args);
   })
 
-  ipcMain.handle('parse', async (event, args) => {
-    return path.parse(args[0]);
+  ipcMain.handle('getParsedName', async (event, args) => {
+    return path.parse(args[0]).name;
   })
 
   ipcMain.handle('basename', async (event, args) => {

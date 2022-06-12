@@ -29,4 +29,8 @@ export default function ipcFileSystemHandlers() {
   ipcMain.handle('isDirectory', async (event, args) => {
     return fs.stat(args[0]).isDirectory
   })
+
+  ipcMain.handle('unlink', async (event, args) => {
+    fs.unlink(args[0])
+  })
 }

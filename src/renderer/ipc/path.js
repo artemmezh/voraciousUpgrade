@@ -13,3 +13,7 @@ export const extname = async (...args) => {
 export const basename = async (...args) => {
   return window.electron.ipcRenderer.invoke('basename', args)
 }
+
+export const getParsedName = async (...args) => {
+  return window.electron.ipcRenderer.invoke('getParsedName', args)
+}
