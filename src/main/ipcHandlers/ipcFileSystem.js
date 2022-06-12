@@ -31,6 +31,6 @@ export default function ipcFileSystemHandlers() {
   })
 
   ipcMain.handle('unlink', async (event, args) => {
-    fs.unlink(args[0])
+    fs.unlink(args[0]);
   })
 }

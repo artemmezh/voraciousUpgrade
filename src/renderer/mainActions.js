@@ -97,7 +97,6 @@ export default class MainActions {
   _loadDictionaries = async (reportProgress) => {
     console.log("_loadDictionaries...")
     const dictionaries = await loadDictionaries(reportProgress);
-    console.log(dictionaries)
     const items = [];
     for (const info of dictionaries) {
       items.push([info.name, info]);
@@ -417,7 +416,8 @@ export default class MainActions {
     if (dict.builtin) {
       throw new Error('Not allowed to delete built-in dictionary');
     }
-
+    console.log("dict.filename")
+    console.log(dict.filename)
     await unlink(dict.filename);
 
     this.state.set(this.state.get().deleteIn(['dictionaries', name]));

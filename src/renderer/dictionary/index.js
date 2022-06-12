@@ -37,15 +37,15 @@ export const loadDictionaries = async (reportProgress) => {
   const result = [];
   // Scan for built-in dictionaries
   const resourcePath = await getResourcesPath();
-  const joinedPath = await join(resourcePath);
-  result.push(...await scanDirForYomichanZips(joinedPath, 'dictionaries'), true, reportProgress);
-
+  const joinedPath = await join(resourcePath, 'dictionaries');
+  const zips = await scanDirForYomichanZips(joinedPath, true, reportProgress);
+  result.push(...zips, true, reportProgress);
   // Scan for imported dictionaries
-  console.log("start scan dictionaries")
   const userDataPath = await getUserDataPath();
   const importedPath = await join(userDataPath, 'dictionaries');
+
   if (await exists(importedPath)) {
-    result.push(...await scanDirForYomichanZips(await join(userDataPath, 'dictionaries'), false, reportProgress));
+    result.push(...await scanDirForYomichanZips(importedPath, false, reportProgress));
   }
   return result;
 };
