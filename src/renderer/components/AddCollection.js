@@ -7,7 +7,6 @@ import SecondaryScreen from './SecondaryScreen.js';
 import SystemBrowserLink from './SystemBrowserLink.js';
 import Button from './Button.js';
 
-// const { ipcRenderer } = window.require('electron'); // use window to avoid webpack
 
 export default class AddCollection extends Component {
   constructor(props) {
