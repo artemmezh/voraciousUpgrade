@@ -15,5 +15,5 @@ export default function initApplicationHandlers(mainWindow) {
   ipcAppHandlers();
   ipcProcessHandlers();
   ipcChildProcessHandlers();
-  // ipcDialogHandlers(mainWindow);
+  // ipcDialogHandlers(mainWindow); //todo I don`t know how to init mainWindow in function
 }
