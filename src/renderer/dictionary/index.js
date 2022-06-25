@@ -39,7 +39,7 @@ export const loadDictionaries = async (reportProgress) => {
   const resourcePath = await getResourcesPath();
   const joinedPath = await join(resourcePath, 'dictionaries');
   const zips = await scanDirForYomichanZips(joinedPath, true, reportProgress);
-  result.push(...zips, true, reportProgress);
+  result.push(...zips);
   // Scan for imported dictionaries
   const userDataPath = await getUserDataPath();
   const importedPath = await join(userDataPath, 'dictionaries');

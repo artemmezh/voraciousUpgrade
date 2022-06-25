@@ -84,11 +84,11 @@ export default class MainActions {
     await this._storageLoadProfile();
 
     // if (!window.electron.remote.commandLine.hasSwitch('--nodicts')) {
-    //   this._setLoadingMessage('Loading dictionaries...');
-    //
-    //   await this._loadDictionaries(progressMsg => {
-    //     this._setLoadingMessage(progressMsg);
-    //   });
+      this._setLoadingMessage('Loading dictionaries...');
+
+      await this._loadDictionaries(progressMsg => {
+        this._setLoadingMessage(progressMsg);
+      });
     // }
 
     this._clearLoadingMessage();
@@ -97,6 +97,8 @@ export default class MainActions {
   _loadDictionaries = async (reportProgress) => {
     console.log("_loadDictionaries...")
     const dictionaries = await loadDictionaries(reportProgress);
+    console.log("dictionaries")
+    console.log(dictionaries)
     const items = [];
     for (const info of dictionaries) {
       items.push([info.name, info]);

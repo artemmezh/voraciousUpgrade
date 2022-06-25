@@ -6,7 +6,7 @@ import SettingsSubOrder from './SettingsSubOrder';
 import SettingsSubIgnores from './SettingsSubIgnores';
 import SettingsAnki from './SettingsAnki';
 import SystemBrowserLink from './SystemBrowserLink.js';
-import {getVersion} from "../ipc/fileSystems";
+// import {getVersion} from "../ipc/fileSystems";
 import './Settings.css';
 
 export default class Settings extends Component {
