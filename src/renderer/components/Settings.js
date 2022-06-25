@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 
 import Button from './Button';
 import SettingsDictionaries from './SettingsDictionaries';
@@ -23,23 +23,52 @@ export default class Settings extends Component {
       <div>
         <div className="Settings-section">
           <h2 className="Settings-section-title">Collections</h2>
-          <Button onClick={() => {history.push('/add_collection'); }}>Add Collection</Button>&nbsp;
+          <Button onClick={() => {
+            history.push('/add_collection');
+          }}>
+            Add Collection
+          </Button>&nbsp;
         </div>
         <div className="Settings-section">
           <h2 className="Settings-section-title">Dictionaries</h2>
-          <SettingsDictionaries history={history} dictionaries={mainState.dictionaries} disabledDictionaries={mainState.preferences.disabledDictionaries} onEnableDictionary={(name) => { actions.setPreferenceEnableDictionary(name); }} onDisableDictionary={(name) => { actions.setPreferenceDisableDictionary(name); }} onSetDictionaryOrder={(names) => { actions.setPreferenceDictionaryOrder(names); }} onDeleteDictionary={(name) => { actions.deleteDictionary(name); }} />
+          <SettingsDictionaries
+            history={history}
+            dictionaries={mainState.dictionaries}
+            disabledDictionaries={mainState.preferences.disabledDictionaries}
+            onEnableDictionary={(name) => {
+              actions.setPreferenceEnableDictionary(name);
+            }}
+            onDisableDictionary={(name) => {
+              actions.setPreferenceDisableDictionary(name);
+            }}
+            onSetDictionaryOrder={(names) => {
+              actions.setPreferenceDictionaryOrder(names);
+            }}
+            onDeleteDictionary={(name) => {
+              actions.deleteDictionary(name);
+            }}
+          />
         </div>
         <div className="Settings-section">
           <h2 className="Settings-section-title">Subtitle Language Order</h2>
-          <SettingsSubOrder subtitleOrder={mainState.preferences.subtitleOrder} onSetOrder={order => { actions.setPreferenceSubtitleOrder(order) }} />
+          <SettingsSubOrder
+            subtitleOrder={mainState.preferences.subtitleOrder}
+            onSetOrder={order => {
+              actions.setPreferenceSubtitleOrder(order)
+            }}
+          />
         </div>
         <div className="Settings-section">
           <h2 className="Settings-section-title">Ignored Subtitle Languages</h2>
-          <SettingsSubIgnores subtitleIgnores={mainState.preferences.subtitleIgnores} onSetIgnores={ignores => { actions.setPreferenceSubtitleIgnores(ignores) }} />
+          <SettingsSubIgnores subtitleIgnores={mainState.preferences.subtitleIgnores} onSetIgnores={ignores => {
+            actions.setPreferenceSubtitleIgnores(ignores)
+          }}/>
         </div>
         <div className="Settings-section">
           <h2 className="Settings-section-title">Anki Export</h2>
-          <SettingsAnki ankiPrefs={mainState.preferences.anki} onSavePrefs={(prefs) => { actions.setPreferenceAnki(prefs); }} />
+          <SettingsAnki ankiPrefs={mainState.preferences.anki} onSavePrefs={(prefs) => {
+            actions.setPreferenceAnki(prefs);
+          }}/>
         </div>
         <div className="Settings-section">
           <h2 className="Settings-section-title">Misc</h2>
@@ -48,7 +77,11 @@ export default class Settings extends Component {
         <div className="Settings-section">
           <h2 className="Settings-section-title">Acknowledgements</h2>
           <div>
-            Voracious includes a copy of the <SystemBrowserLink href="http://www.edrdg.org/jmdict/j_jmdict.html">JMdict</SystemBrowserLink> Japanese dictionary, which is the property of the <SystemBrowserLink href="http://www.edrdg.org/">Electronic Dictionary Research and Development Group</SystemBrowserLink>, and is used in conformance with the Group's <SystemBrowserLink href="http://www.edrdg.org/edrdg/licence.html">license</SystemBrowserLink>.
+            Voracious includes a copy of the <SystemBrowserLink
+            href="http://www.edrdg.org/jmdict/j_jmdict.html">JMdict</SystemBrowserLink> Japanese dictionary, which is the property of
+            the <SystemBrowserLink href="http://www.edrdg.org/">Electronic Dictionary Research and Development Group</SystemBrowserLink>,
+            and is used in conformance with the Group's <SystemBrowserLink
+            href="http://www.edrdg.org/edrdg/licence.html">license</SystemBrowserLink>.
           </div>
         </div>
       </div>

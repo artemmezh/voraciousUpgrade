@@ -1,3 +1,8 @@
+
+
+
+
+
 #Log
 There was my log about upgrading process for electron to latest version.    
 I am not fronted developer. I dont have experience in js or typescript or electron, but i want to create modern desktop application for learning language. So, here my log about knowledge which i get during upgrading application `voracious`.

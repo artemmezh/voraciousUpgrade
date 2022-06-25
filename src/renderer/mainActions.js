@@ -391,7 +391,6 @@ export default class MainActions {
     const state = this.state.get();
 
     const results = [];
-
     for (const [name, info] of state.dictionaries) {
       if (!state.preferences.disabledDictionaries.has(name)) {
         for (const text of searchIndex(info.index, word)) {

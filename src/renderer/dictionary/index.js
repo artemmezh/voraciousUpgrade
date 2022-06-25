@@ -51,6 +51,7 @@ export const loadDictionaries = async (reportProgress) => {
 };
 
 export const searchIndex = (index, word) => {
+
   const result = [];
   const sequences = index.wordOrReadingToSequences.get(word);
   if (sequences) {
