@@ -7,7 +7,10 @@ export const getUserDataPath = async () => {
 };
 
 export const getResourcesPath = async () => {
-  const appPath = await getAppPath();
+  let appPath = await getAppPath();
+  if (appPath.endsWith('.asar')) {
+    appPath += '.unpacked';
+  }
   return await join(appPath, 'resources');
 };
 
