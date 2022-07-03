@@ -4,6 +4,10 @@ import MainActions from './mainActions';
 import {SubscribableState, StateMapper} from './ruxx';
 import './index.css';
 
+// Load Kuromoji right away
+import { startLoadingKuromoji } from './util/analysis';
+startLoadingKuromoji();
+
 const subscribableMainState = new SubscribableState();
 const actions = new MainActions(subscribableMainState);
 
