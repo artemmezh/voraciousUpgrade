@@ -22,6 +22,42 @@ Before using Voracious, you need to have a media collection that's organized and
 If your media collection is ready to go, open Voracious and hit the *Add Collection* link. Select the folder where your collection lives, and give it name, and add it. On the Library page, you can browse your collection and play videos (videos without any available subtitles will appear grey). In the player, check the help overlay for keyboard controls, and try different subtitle modes.
 
 
+# Development
+
+## Overview and repo structure
+
+Voracious is mostly built as a single-page web app with React (using `create-react-app`), and then packaged as a cross-platform desktop app using Electron. As with a normal electron app, the bulk of the code is in `src/` with some static resources in `resources/`. The output of webpack (after `npm run pachage`) will go into `release/build/`.
+
+The application divided between `/src/main` and `/src/renderer`, according Electron application structure. `/src/main/` dir contains all staff for nodejs and OS. 
+
+Most third-party dependencies are pure JS (`react`, `immutable`, etc.) and are declared in the root `package.json`.
+
+Dependencies that use native code (e.g. `sqlite`) need to be compiled against the Electron V8 runtime, and are declared in `/release/app/package.json`. The corresponding `/release/app/node_modules/` _is_ packaged into the final distributed Electron app.
+
+
+## Installing for development
+
+To install for development you'll first need NodeJS (12v or higher), npm, and some extra build tools for node-gyp ([see here](https://github.com/nodejs/node-gyp)). Then:
+
+```
+$ npm install # install pure-JS and development dependencies
+```
+
+## Running in development mode
+
+Start the app with:
+```
+$ npm start
+```
+
+## Building for release
+
+```
+$ yarn run package
+```
+
+The output archive/executable can then be found in the `/release/app/build` dir.
+
 
 
 
