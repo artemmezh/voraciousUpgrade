@@ -2,7 +2,7 @@
 
 Voracious is a video player app for Mac/Windows/Linux with special features for studying foreign languages (esp. Japanese).
 
-![screenshot](docs/demo_screenshot.jpg "Screenshot")
+![demo_screenshot](https://user-images.githubusercontent.com/105996053/181633114-92cbb597-52c8-44a5-a45c-bb0924733d90.jpg)
 
 Voracious lets you:
 - **Scan and browse** your media collection ala Kodi or Plex
