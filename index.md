@@ -1,37 +1,22 @@
-## Welcome to GitHub Pages
+# Voracious
 
-You can use the [editor on GitHub](https://github.com/artemmezh/voraciousUpgrade/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+Voracious is a video player app for Mac/Windows/Linux with special features for studying foreign languages (esp. Japanese).
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+![screenshot](docs/demo_screenshot.jpg "Screenshot")
 
-### Markdown
+Voracious lets you:
+- **Scan and browse** your media collection ala Kodi or Plex
+- Simultaneously display **multiple subtitle languages/tracks** (all common formats supported)
+- Quickly **replay** the current subtitle and navigate forward and back *by subtitle* using the keyboard
+- Train your listen/reading/comprehension with **special viewing modes** that automatically pause and hide/reveal subtitles
+- Automatically generate **furigana** annotations _(Japanese only)_
+- Hover over words to see **dictionary definitions** _(Japanese only)_
+- Import and use **EPWING** dictionaries _(limited to certain popular Japanese EPWINGs)_
+- **Export subtitles as sentence cards** to Anki (with audio and/or image, ala [subs2srs](http://subs2srs.sourceforge.net/)), instantly via [AnkiConnect](https://ankiweb.net/shared/info/2055492159)
+- _(coming soon)_ **Search for words/phrases** over your entire library of subtitles
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+# Using Voracious (Quick Start)
 
-```markdown
-Syntax highlighted code block
+Before using Voracious, you need to have a media collection that's organized and named the same way you would for Kodi or Plex _(each show/movie in its own directory, subtitle filename matching video filenames, etc.)_. Note that Voracious cannot currently play some popular video/audio codecs, including H.265 and AC3. Also, keep in mind that Voracious won't be useful unless you have subtitles in the language you're trying to learn.
 
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/artemmezh/voraciousUpgrade/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+If your media collection is ready to go, open Voracious and hit the *Add Collection* link. Select the folder where your collection lives, and give it name, and add it. On the Library page, you can browse your collection and play videos (videos without any available subtitles will appear grey). In the player, check the help overlay for keyboard controls, and try different subtitle modes.
