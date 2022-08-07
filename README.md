@@ -68,7 +68,7 @@ For windows
 $ npm run package-win
 ```
 
-For linux
+For linux:
 ```
 $ npm run package-linux
 ```
