@@ -23,7 +23,7 @@ If your media collection is ready to go, open Voracious and hit the *Add Collect
 
 
 # Download
-![Mac-arm64](https://github.com/artemmezh/voraciousUpgrade/releases/download/0.7.1/Voracious-0.7.1-arm64-mac.zip)
-![Mac](https://github.com/artemmezh/voraciousUpgrade/releases/download/0.7.1/Voracious-0.7.1-mac.zip)
-![Windows](https://github.com/artemmezh/voraciousUpgrade/releases/download/0.7.1/Voracious.Setup.0.7.1.exe)
-![Linux](https://github.com/artemmezh/voraciousUpgrade/releases/download/0.7.1/Voracious-0.7.1.AppImage)
+* [Mac-arm64](https://github.com/artemmezh/voraciousUpgrade/releases/download/0.7.1/Voracious-0.7.1-arm64-mac.zip)    
+* [Mac](https://github.com/artemmezh/voraciousUpgrade/releases/download/0.7.1/Voracious-0.7.1-mac.zip)       
+* [Windows](https://github.com/artemmezh/voraciousUpgrade/releases/download/0.7.1/Voracious.Setup.0.7.1.exe)     
+* [Linux](https://github.com/artemmezh/voraciousUpgrade/releases/download/0.7.1/Voracious-0.7.1.AppImage)      
