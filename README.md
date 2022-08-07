@@ -61,6 +61,8 @@ $ npm run package
 For mac
 ```
 $ npm run package-mac
+
+Хуй, пизда
 ```
 
 For windows
